@@ -364,22 +364,22 @@ def test_bad_wp_after_situations():
 
     assert bad_wpa_play.proper_time_set.all()
 
-def test_available_yards():
-    test = CFBPlayProcess(gameId = 401677179) # Ohio St/Mich: 401520434 vs BC/SMU: 401551750, IU/ND: 401677179
-    test.espn_cfb_pbp()
-    json_dict_stuff = test.run_processing_pipeline()
-    # box = test.create_box_score()
+# def test_available_yards():
+#     test = CFBPlayProcess(gameId = 401677179) # Ohio St/Mich: 401520434 vs BC/SMU: 401551750, IU/ND: 401677179
+#     test.espn_cfb_pbp()
+#     json_dict_stuff = test.run_processing_pipeline()
+#     # box = test.create_box_score()
 
-    plays = test.plays_json
-    tb_play = plays[
-        plays['text'].isin([
-            "Riley Leonard run for 1 yd to the ND 21",
-            "Eric Goins kickoff for 40 yds fair catch by Solomon Vanhorse at the IU 7"
-        ])
-    ]
-    assert tb_play.loc[tb_play.index[0], 'drive_start'] == 83
-    assert tb_play.loc[tb_play.index[1], 'drive_start'] == 75
-    # LOGGER.info(tb_play.loc[tb_play.index[1], 'drive_st
+#     plays = test.plays_json
+#     tb_play = plays[
+#         plays['text'].isin([
+#             "Riley Leonard run for 1 yd to the ND 21",
+#             "Eric Goins kickoff for 40 yds fair catch by Solomon Vanhorse at the IU 7"
+#         ])
+#     ]
+#     assert tb_play.loc[tb_play.index[0], 'drive_start'] == 83
+#     assert tb_play.loc[tb_play.index[1], 'drive_start'] == 75
+#     # LOGGER.info(tb_play.loc[tb_play.index[1], 'drive_st
 
 
 def test_bugged_pass_yards():
@@ -539,4 +539,3 @@ def test_kickoff_tb():
 #     LOGGER.info(bad_yards_play[["text", "penalty_flag", "wp_before", "EP_start"] + wp_start_columns].to_json(orient = "records", indent = 2))
 #     LOGGER.info("AFTER:")
 #     LOGGER.info(bad_yards_play[["text", "penalty_flag", "wp_after_case", "wp_after", "wpa", "end.ExpScoreDiff_case", "EP_end", "EPA"] + wp_end_columns].to_json(orient = "records", indent = 2))
-

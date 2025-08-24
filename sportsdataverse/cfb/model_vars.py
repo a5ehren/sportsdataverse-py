@@ -56,44 +56,52 @@ wp_end_columns = [
 
 ep_start_touchback_columns = [
     "start.TimeSecsRem",
-    "start.yardsToEndzone.touchback",
-    "distance",
     "down_1",
     "down_2",
     "down_3",
     "down_4",
-    "pos_score_diff_start"
+    "distance",
+    "start.yardsToEndzone.touchback",
+    "start.is_home",
+    "start.posTeamTimeouts",
+    "start.defPosTeamTimeouts",
 ]
 ep_start_columns = [
     "start.TimeSecsRem",
-    "start.yardsToEndzone",
-    "start.distance",
     "down_1",
     "down_2",
     "down_3",
     "down_4",
-    "pos_score_diff_start"
+    "start.distance",
+    "start.yardsToEndzone",
+    "start.is_home",
+    "start.posTeamTimeouts",
+    "start.defPosTeamTimeouts",
 ]
 ep_end_columns = [
     "end.TimeSecsRem",
-    "end.yardsToEndzone",
-    "end.distance",
     "down_1_end",
     "down_2_end",
     "down_3_end",
     "down_4_end",
-    "pos_score_diff_end"
+    "end.distance",
+    "end.yardsToEndzone",
+    "end.is_home",
+    "end.posTeamTimeouts",
+    "end.defPosTeamTimeouts",
 ]
 
 ep_final_names = [
-    "TimeSecsRem",
-    "yards_to_goal",
+    "half_seconds_remaining",
+    "down1",
+    "down2",
+    "down3",
+    "down4",
     "distance",
-    "down_1",
-    "down_2",
-    "down_3",
-    "down_4",
-    "pos_score_diff_start"
+    "yards_to_goal",
+    "is_home",
+    "pos_team_timeouts",
+    "def_pos_team_timeouts",
 ]
 wp_final_names = [
     "pos_team_receives_2H_kickoff",
