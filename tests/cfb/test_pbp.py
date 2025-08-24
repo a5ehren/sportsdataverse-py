@@ -373,10 +373,12 @@ def test_available_yards():
     plays = test.plays_json
     tb_play = plays[
         plays['text'].isin([
-            "Riley Leonard run for 1 yd to the ND 21"
+            "Riley Leonard run for 1 yd to the ND 21",
+            "Eric Goins kickoff for 40 yds fair catch by Solomon Vanhorse at the IU 7"
         ])
     ]
-    assert tb_play.loc[tb_play.index[0], 'drive_start'] == 65
+    assert tb_play.loc[tb_play.index[0], 'drive_start'] == 83
+    assert tb_play.loc[tb_play.index[1], 'drive_start'] == 75
     # LOGGER.info(tb_play.loc[tb_play.index[1], 'drive_st
 
 
