@@ -39,15 +39,19 @@ No API keys needed.
 ## 🔌 Setup
 
 ```sh
-pip install "sportsdataverse[sdvplot]"
+pip install --pre "sportsdataverse[sdvplot]"
 ```
+
+The `sdvplot` extra brings in sdvplot and matplotlib for the charts. `--pre` is needed while 0.2.0 is
+in beta.
 
 
 ```python
 import matplotlib.pyplot as plt
 import polars as pl
 
-from sportsdataverse import espn_content, f1, nbagl, thesportsdb
+from sportsdataverse import f1, nbagl
+from sportsdataverse.providers import espn_content, thesportsdb
 
 pl.Config.set_tbl_rows(10)
 pl.Config.set_fmt_str_lengths(60)
@@ -318,17 +322,17 @@ news.select("published", "headline") if news is not None and news.height else "n
 
 
     shape: (5, 2)
-    ┌──────────────────────┬───────────────────────────────────────────────────────────┐
-    │ published            ┆ headline                                                  │
-    │ ---                  ┆ ---                                                       │
-    │ str                  ┆ str                                                       │
-    ╞══════════════════════╪═══════════════════════════════════════════════════════════╡
-    │ 2026-10-26T06:03:48Z ┆ Sacramento faces San Antonio on 3-game slide              │
-    │ 2026-10-26T06:03:46Z ┆ Cleveland and Minnesota meet in non-conference showdown   │
-    │ 2026-10-26T06:03:45Z ┆ Grizzlies play the Jazz, aim for 4th straight win         │
-    │ 2026-10-26T06:02:59Z ┆ Detroit plays New York on 3-game win streak               │
-    │ 2026-10-26T06:02:58Z ┆ Phoenix visits Oklahoma City after Booker's 43-point game │
-    └──────────────────────┴───────────────────────────────────────────────────────────┘
+    ┌──────────────────────┬───────────────────────────────────────────────────────────────┐
+    │ published            ┆ headline                                                      │
+    │ ---                  ┆ ---                                                           │
+    │ str                  ┆ str                                                           │
+    ╞══════════════════════╪═══════════════════════════════════════════════════════════════╡
+    │ 2026-11-02T20:44:22Z ┆ Michael Jordan congratulates Valykries star Gabby Williams a… │
+    │ 2026-11-02T20:47:31Z ┆ Thunder to retire Russell Westbrook's No. 0                   │
+    │ 2026-11-02T20:21:19Z ┆ Jaylen Brown's favorite purchase? An 18th century harp        │
+    │ 2026-11-02T21:02:48Z ┆ Wilbon taking leave of absence from ESPN to address health i… │
+    │ 2026-11-02T18:52:35Z ┆ Fantasy hoops category specialists: Risacher, Robinson among… │
+    └──────────────────────┴───────────────────────────────────────────────────────────────┘
 
 
 
