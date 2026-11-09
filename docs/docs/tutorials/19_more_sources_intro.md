@@ -39,15 +39,19 @@ No API keys needed.
 ## 🔌 Setup
 
 ```sh
-pip install "sportsdataverse[sdvplot]"
+pip install --pre "sportsdataverse[sdvplot]"
 ```
+
+The `sdvplot` extra brings in sdvplot and matplotlib for the charts. `--pre` is needed while 0.2.0 is
+in beta.
 
 
 ```python
 import matplotlib.pyplot as plt
 import polars as pl
 
-from sportsdataverse import espn_content, f1, nbagl, thesportsdb
+from sportsdataverse import f1, nbagl
+from sportsdataverse.providers import espn_content, thesportsdb
 
 pl.Config.set_tbl_rows(10)
 pl.Config.set_fmt_str_lengths(60)
@@ -127,18 +131,14 @@ gsb.select([c for c in cols if c in gsb.columns]).head() if gsb is not None and 
 
 
 
-    shape: (5, 5)
-    ┌───────────────────┬────────────┬──────────────────────────────────┬────────────┬────────────┐
-    │ date              ┆ short_name ┆ status_type_detail               ┆ home_score ┆ away_score │
-    │ ---               ┆ ---        ┆ ---                              ┆ ---        ┆ ---        │
-    │ str               ┆ str        ┆ str                              ┆ str        ┆ str        │
-    ╞═══════════════════╪════════════╪══════════════════════════════════╪════════════╪════════════╡
-    │ 2026-11-07T00:00Z ┆ WES @ MNE  ┆ Fri, November 6th at 7:00 PM EST ┆ 0          ┆ 0          │
-    │ 2026-11-07T00:00Z ┆ LIN @ GBO  ┆ Fri, November 6th at 7:00 PM EST ┆ 0          ┆ 0          │
-    │ 2026-11-07T00:00Z ┆ CAP @ DEL  ┆ Fri, November 6th at 7:00 PM EST ┆ 0          ┆ 0          │
-    │ 2026-11-07T00:00Z ┆ RAP @ CPS  ┆ Fri, November 6th at 7:00 PM EST ┆ 0          ┆ 0          │
-    │ 2026-11-07T01:00Z ┆ NOB @ WCB  ┆ Fri, November 6th at 8:00 PM EST ┆ 0          ┆ 0          │
-    └───────────────────┴────────────┴──────────────────────────────────┴────────────┴────────────┘
+    shape: (1, 5)
+    ┌───────────────────┬────────────┬───────────────────────────────────┬────────────┬────────────┐
+    │ date              ┆ short_name ┆ status_type_detail                ┆ home_score ┆ away_score │
+    │ ---               ┆ ---        ┆ ---                               ┆ ---        ┆ ---        │
+    │ str               ┆ str        ┆ str                               ┆ str        ┆ str        │
+    ╞═══════════════════╪════════════╪═══════════════════════════════════╪════════════╪════════════╡
+    │ 2026-11-10T03:00Z ┆ SAN @ CVL  ┆ Mon, November 9th at 10:00 PM EST ┆ 0          ┆ 0          │
+    └───────────────────┴────────────┴───────────────────────────────────┴────────────┴────────────┘
 
 
 
@@ -318,17 +318,17 @@ news.select("published", "headline") if news is not None and news.height else "n
 
 
     shape: (5, 2)
-    ┌──────────────────────┬───────────────────────────────────────────────────────────┐
-    │ published            ┆ headline                                                  │
-    │ ---                  ┆ ---                                                       │
-    │ str                  ┆ str                                                       │
-    ╞══════════════════════╪═══════════════════════════════════════════════════════════╡
-    │ 2026-10-26T06:03:48Z ┆ Sacramento faces San Antonio on 3-game slide              │
-    │ 2026-10-26T06:03:46Z ┆ Cleveland and Minnesota meet in non-conference showdown   │
-    │ 2026-10-26T06:03:45Z ┆ Grizzlies play the Jazz, aim for 4th straight win         │
-    │ 2026-10-26T06:02:59Z ┆ Detroit plays New York on 3-game win streak               │
-    │ 2026-10-26T06:02:58Z ┆ Phoenix visits Oklahoma City after Booker's 43-point game │
-    └──────────────────────┴───────────────────────────────────────────────────────────┘
+    ┌──────────────────────┬───────────────────────────────────────────────────────────────┐
+    │ published            ┆ headline                                                      │
+    │ ---                  ┆ ---                                                           │
+    │ str                  ┆ str                                                           │
+    ╞══════════════════════╪═══════════════════════════════════════════════════════════════╡
+    │ 2026-11-09T22:54:36Z ┆ Bronny James gets into verbal exchange with Pistons fans dur… │
+    │ 2026-11-09T20:55:38Z ┆ NBA buzz: Latest on trades, news, roster moves and intel      │
+    │ 2026-11-09T21:27:07Z ┆ Monday's fantasy hoops adds, NBA bets to make: Ty Jerome pri… │
+    │ 2026-11-09T18:59:48Z ┆ Sources: NBA finalizing Miami as 2028 All-Star Weekend host   │
+    │ 2026-11-09T16:40:47Z ┆ Fantasy risers and fallers: Add Burries, give more time to s… │
+    └──────────────────────┴───────────────────────────────────────────────────────────────┘
 
 
 

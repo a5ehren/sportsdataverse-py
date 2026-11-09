@@ -45,7 +45,6 @@ most commonly used entry points.
 | [`espn_soccer_team_schedule`](../soccer/reference/site.md#espn_soccer_team_schedule) | A team's fixtures & results |
 | [`espn_soccer_news`](../soccer/reference/site.md#espn_soccer_news) | Latest news headlines for a league |
 | [`espn_soccer_injuries`](../soccer/reference/site.md#espn_soccer_injuries) | Current injury list |
-| [`espn_soccer_leaders`](../soccer/reference/web.md#espn_soccer_leaders) | Stat leaders by category |
 | [`espn_soccer_player_info`](../soccer/reference/site.md#espn_soccer_player_info) | Player bio & metadata |
 | [`espn_soccer_player_stats`](../soccer/reference/web.md#espn_soccer_player_stats) | Player season statistics |
 | [`espn_soccer_game_probabilities`](../soccer/reference/core/game.md#espn_soccer_game_probabilities) | In-game win probabilities |
@@ -80,7 +79,8 @@ most commonly used entry points.
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
+pip install --pre "sportsdataverse[soccer,sdvplot,sportypy]"   # optional: event data + the shot map
 ```
 
 No API key required. All calls go to ESPN's public endpoints.
@@ -640,48 +640,6 @@ else:
     shape: (0, 3)
 
 
-## 📊 Stat leaders
-
-[`espn_soccer_leaders`](../soccer/reference/web.md#espn_soccer_leaders) returns
-the statistical leaderboard for a league, optionally scoped to a season,
-stat category, and page. Categories include `goals`, `assists`, `yellowCards`,
-`redCards`, and others ESPN surfaces.
-
-
-```python
-goal_leaders = safe(
-    'EPL goal leaders 2023/24',
-    lambda: soccer.espn_soccer_leaders(
-        league='eng.1', category='goals', season=2024, limit=10,
-    ),
-)
-if isinstance(goal_leaders, dict):
-    print('leaders payload keys:', list(goal_leaders.keys()))
-elif goal_leaders is not None:
-    print('shape:', goal_leaders.shape)
-    print(goal_leaders.head())
-else:
-    print('leaders unavailable right now')
-```
-
-    ✅ EPL goal leaders 2023/24
-    shape: (1, 9)
-    shape: (1, 9)
-    ┌───────────┬───────────┬───────────┬───────────┬───┬───────────┬───────────┬───────────┬──────────┐
-    │ current_s ┆ current_s ┆ current_s ┆ current_s ┆ … ┆ current_s ┆ current_s ┆ current_s ┆ current_ │
-    │ eason_yea ┆ eason_dis ┆ eason_sta ┆ eason_end ┆   ┆ eason_typ ┆ eason_typ ┆ eason_typ ┆ season_t │
-    │ r         ┆ play_name ┆ rt_date   ┆ _date     ┆   ┆ e_type    ┆ e_name    ┆ e_start_d ┆ ype_end_ │
-    │ ---       ┆ ---       ┆ ---       ┆ ---       ┆   ┆ ---       ┆ ---       ┆ ate       ┆ date     │
-    │ i64       ┆ str       ┆ str       ┆ str       ┆   ┆ i64       ┆ str       ┆ ---       ┆ ---      │
-    │           ┆           ┆           ┆           ┆   ┆           ┆           ┆ str       ┆ str      │
-    ╞═══════════╪═══════════╪═══════════╪═══════════╪═══╪═══════════╪═══════════╪═══════════╪══════════╡
-    │ 2026      ┆ 2026-27   ┆ 2026-06-0 ┆ 2027-06-0 ┆ … ┆ 14308     ┆ 2026-27   ┆ 2026-06-0 ┆ 2027-06- │
-    │           ┆ English   ┆ 1T04:00:0 ┆ 1T03:59:0 ┆   ┆           ┆ English   ┆ 1T04:00:0 ┆ 01T03:59 │
-    │           ┆ Premier   ┆ 0.000+00: ┆ 0.000+00: ┆   ┆           ┆ Premier   ┆ 0.000+00: ┆ :00.000+ │
-    │           ┆ League    ┆ 00        ┆ 00        ┆   ┆           ┆ League    ┆ 00        ┆ 00:00    │
-    └───────────┴───────────┴───────────┴───────────┴───┴───────────┴───────────┴───────────┴──────────┘
-
-
 ## 🔗 League aliases — drop the `league=` argument
 
 When you only work with one competition, the twelve league sub-modules
@@ -938,8 +896,6 @@ pl.DataFrame(rows)
 
 
     ✅ La Liga standings
-
-
     ✅ Bundesliga standings
 
 
@@ -1209,13 +1165,54 @@ ds = statsbomb.load(event_data='8658.json', lineup_data='lineups_8658.json')
 df = soccer_events_to_frame(ds)
 ```
 
-To draw it, [sdvplot](https://github.com/sportsdataverse/sdvplot) puts the frame on a 105 × 68 m
-pitch in one line (sdvplot is not a dependency, so this is not executed here):
+### 🎯 Chart: the final's shots on the pitch
+
+[sdvplot](https://sdvplot.sportsdataverse.org/)'s `pitch_coords` puts StatsBomb's 120 × 80 units on the
+105 × 68 m pitch `surface("soccer")` draws (the R twin is `sdvplotR::sdv_pitch_coords`). StatsBomb records every
+shot as if the team attacked left to right, so `flip=` turns France's shots to the other end. The own goal is
+dropped: it is recorded from the defending side.
+
 
 ```python
-from sdvplot import pitch_coords
-xy = pitch_coords(events, provider='statsbomb')   # R: sdvplotR::sdv_pitch_coords(events, 'statsbomb')
+# Needs the plotting extra: pip install --pre "sportsdataverse[soccer,sdvplot,sportypy]"
+from IPython.display import Markdown, display
+
+try:
+    import matplotlib.pyplot as plt
+    import sdvplot
+    import sportypy  # noqa: F401 -- sdvplot.surface() draws with it
+except ImportError:
+    plt = None
+
+shots = None if plt is None else safe('StatsBomb shots in StatsBomb units',
+                                     lambda: soccer_open_events('statsbomb', 8658, coordinates='statsbomb'))
+if plt is None or shots is None:
+    display(Markdown('_Shot map skipped: it needs `pip install --pre "sportsdataverse[soccer,sdvplot,sportypy]"`._'))
+else:
+    TEAMS = {'771': ('France', '#0055a4'), '785': ('Croatia', '#c8102e')}  # StatsBomb team ids of match 8658
+    shots = (shots.filter((pl.col('event_type') == 'SHOT') & (pl.col('result') != 'OWN_GOAL'))
+             .with_columns(france=pl.col('team_id') == '771'))
+    xy = sdvplot.pitch_coords(shots, provider='statsbomb', x='coordinates_x', y='coordinates_y', flip='france')
+
+    ax = sdvplot.surface('soccer')
+    for team_id, (team, color) in TEAMS.items():
+        own = xy.filter(pl.col('team_id') == team_id)
+        goals = own.filter(pl.col('result') == 'GOAL')
+        ax.scatter(own['pitch_x'], own['pitch_y'], s=30, color=color, alpha=0.6, zorder=10, label=f'{team} shots')
+        ax.scatter(goals['pitch_x'], goals['pitch_y'], s=200, marker='*', color=color, edgecolor='black', zorder=10, label=f'{team} goals')
+    ax.set_title('2018 World Cup final: France (attacking left) v Croatia (attacking right)')
+    ax.legend(loc='upper center', ncol=2, bbox_to_anchor=(0.5, 0))
+    plt.show()
 ```
+
+    ✅ StatsBomb shots in StatsBomb units
+
+
+
+
+![png](13_soccer_intro_files/13_soccer_intro_65_1.png)
+
+
 
 ## 🧭 SPADL actions
 

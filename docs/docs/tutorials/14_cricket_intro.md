@@ -38,7 +38,7 @@ a bare integer.
 3. Standings — the `children` hierarchy, flattened
 4. Match summary — all 8 matchcard sections, with emphasis on the three
    heterogeneous batting / bowling / partnerships scorecard shapes
-5. Bonus endpoints — news, calendar
+5. Bonus endpoint — news
 6. Caveats and the full reference
 
 
@@ -62,7 +62,7 @@ All other `espn_cricket_*` wrappers reuse the universal parsers (`parse_news`,
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
 ```
 
 No API key required.
@@ -70,6 +70,7 @@ No API key required.
 
 ```python
 import polars as pl
+from IPython.display import display
 import sportsdataverse.cricket as cricket
 
 # IPL (Indian Premier League) league slug — used throughout this notebook.
@@ -290,12 +291,14 @@ The three `matchcards_*` frames have **different schemas** — batting rows carr
 partnership rows carry `total_runs`/`total_balls` plus per-batter run splits.
 They are returned as **separate frames** so callers can work with each schema cleanly.
 
-Event ID `1535465` is an IPL match (Chennai Super Kings vs. Mumbai Indians) that
-is used as the worked example throughout.
+Event ID `1535465` is a finished 2026 IPL match (Royal Challengers Bengaluru vs. Gujarat
+Titans, Ahmedabad, May 31), the worked example throughout. It is pinned because ESPN
+lists no past IPL fixtures: the cricket scoreboard shows only the current slate, and the
+dated scoreboard, team-schedule and calendar endpoints return nothing for the IPL.
 
 
 ```python
-EVENT_ID = 1535465  # IPL — Chennai Super Kings vs. Mumbai Indians
+EVENT_ID = 1535465  # 2026 IPL: Royal Challengers Bengaluru vs. Gujarat Titans (a finished match)
 
 summary_raw = safe(
     f"match summary {EVENT_ID}",
@@ -306,7 +309,7 @@ if isinstance(summary_raw, dict):
 ```
 
     ✅ match summary 1535465
-    Top-level keys: ['notes', 'gameInfo', 'debuts', 'rosters', 'matchcards', 'leaders', 'article', 'videos', 'news', 'header', 'wallclockAvailable', 'meta', 'standings']
+    Top-level keys: ['notes', 'gameInfo', 'debuts', 'rosters', 'matchcards', 'article', 'videos', 'news', 'header', 'wallclockAvailable', 'meta', 'leaders', 'standings']
 
 
 ### Parsing all 8 sections at once
@@ -553,35 +556,12 @@ else:
     │ ---                             ┆ ---                  ┆ ---          │
     │ str                             ┆ str                  ┆ str          │
     ╞═════════════════════════════════╪══════════════════════╪══════════════╡
-    │ Aiden Markram doesn't want to … ┆ 2026-10-26T07:18:45Z ┆ Story        │
-    │ Athanaze and Carty to lead Wes… ┆ 2026-10-26T07:17:55Z ┆ HeadlineNews │
-    │ Morkel wants Bhuvneshwar to 'b… ┆ 2026-10-26T07:11:06Z ┆ HeadlineNews │
-    │ Padikkal leads the way with 19… ┆ 2026-10-26T06:55:41Z ┆ Recap        │
-    │ WPL 2027 auction - who has the… ┆ 2026-10-26T06:39:20Z ┆ Story        │
+    │ Cricket Scotland announces red… ┆ 2026-11-09T22:56:58Z ┆ HeadlineNews │
+    │ Laurie Evans: 'My world was tu… ┆ 2026-11-09T18:59:20Z ┆ HeadlineNews │
+    │ Dale Benkenstein appointed Ban… ┆ 2026-11-09T17:46:49Z ┆ HeadlineNews │
+    │ Stats - Two 40-plus centurions… ┆ 2026-11-09T17:15:44Z ┆ Story        │
+    │ Shanto: Bangladesh failed to m… ┆ 2026-11-09T16:41:24Z ┆ HeadlineNews │
     └─────────────────────────────────┴──────────────────────┴──────────────┘
-
-
-## 📅 Calendar
-
-[`espn_cricket_calendar`](../cricket/reference/site.md#espn_cricket_calendar)
-returns the competition calendar — matchdays, rounds, or phases depending on the
-tournament format. It uses the universal `parse_items` parser.
-
-
-```python
-cal = safe(
-    "IPL calendar",
-    lambda: cricket.espn_cricket_calendar(league=IPL),
-)
-if cal is not None and cal.height:
-    print(cal.shape)
-    print(cal.head())
-else:
-    print("calendar unavailable right now")
-```
-
-    ⏭️  IPL calendar: NoDataError: No data found for https://site.api.espn.com/apis/site/v2/sports/cricket/8048/calendar
-    calendar unavailable right now
 
 
 ## 🍳 Cookbook: common cricket tasks
@@ -596,7 +576,7 @@ building a match-by-match batting leaderboard.
 
 ```python
 if batting.height and "runs" in batting.columns:
-    (
+    display(
         batting
         .filter(pl.col("runs").is_not_null())
         .sort("runs", descending=True)
@@ -609,6 +589,21 @@ else:
     print("batting frame not available")
 ```
 
+
+    shape: (5, 4)
+    ┌────────────────┬──────┬───────┬───────┐
+    │ innings_number ┆ runs ┆ fours ┆ sixes │
+    │ ---            ┆ ---  ┆ ---   ┆ ---   │
+    │ str            ┆ str  ┆ str   ┆ str   │
+    ╞════════════════╪══════╪═══════╪═══════╡
+    │ 2              ┆ 75   ┆ 9     ┆ 3     │
+    │ 2              ┆ 32   ┆ 4     ┆ 2     │
+    │ 2              ┆ 24   ┆ 3     ┆ 1     │
+    │ 2              ┆ 15   ┆ 1     ┆ 1     │
+    │ 2              ┆ 11   ┆ 1     ┆ 0     │
+    └────────────────┴──────┴───────┴───────┘
+
+
 ### Recipe 2 — Economy leaders from the bowling card 🎯
 
 Bowlers who took wickets and kept a tight economy rate — the T20 game-changers.
@@ -616,7 +611,7 @@ Bowlers who took wickets and kept a tight economy rate — the T20 game-changers
 
 ```python
 if bowling.height and "economy" in bowling.columns:
-    (
+    display(
         bowling
         .filter(pl.col("wickets").is_not_null() & (pl.col("wickets").cast(pl.Float64, strict=False) > 0))
         .sort("economy", descending=False)
@@ -640,7 +635,7 @@ A large partnership is often the turning point in a T20 match.
 
 ```python
 if partnerships.height and "total_runs" in partnerships.columns:
-    (
+    display(
         partnerships
         .filter(pl.col("total_runs").is_not_null())
         .sort("total_runs", descending=True)
@@ -667,7 +662,7 @@ see where each franchise stands.
 if standings is not None and standings.height:
     sort_cols = [c for c in ["points", "net_run_rate"] if c in standings.columns]
     if sort_cols:
-        (
+        display(
             standings
             .sort(sort_cols, descending=[True] * len(sort_cols))
             .select([c for c in ["team", "wins", "losses", "points", "net_run_rate"]
