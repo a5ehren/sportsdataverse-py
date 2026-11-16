@@ -64,7 +64,7 @@ no live API). Click any name for the full reference.
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
 ```
 
 No API key needed — ESPN, Fox and the parquet loaders are all open. 😊
@@ -116,7 +116,7 @@ print("teams:", teams.shape)
 teams.select(["team_id", "team_location", "team_name", "team_abbreviation", "team_is_active"]).head()
 ```
 
-    teams: (362, 14)
+    teams: (365, 14)
 
 
 
@@ -297,16 +297,16 @@ out
     │ ---     ┆ --- ┆ ---  ┆ ---  ┆ ---  │
     │ str     ┆ str ┆ str  ┆ str  ┆ str  │
     ╞═════════╪═════╪══════╪══════╪══════╡
-    │ 1       ┆ 37  ┆ null ┆ null ┆ null │
-    │ 2       ┆ 37  ┆ null ┆ null ┆ null │
-    │ 3       ┆ 37  ┆ null ┆ null ┆ null │
-    │ 4       ┆ 36  ┆ null ┆ null ┆ null │
-    │ 5       ┆ 36  ┆ null ┆ null ┆ null │
-    │ 6       ┆ 35  ┆ null ┆ null ┆ null │
-    │ 7       ┆ 35  ┆ null ┆ null ┆ null │
-    │ 8       ┆ 35  ┆ null ┆ null ┆ null │
-    │ 9       ┆ 35  ┆ null ┆ null ┆ null │
-    │ 10      ┆ 35  ┆ null ┆ null ┆ null │
+    │ 1       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 2       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 3       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 4       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 5       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 6       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 7       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 8       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 9       ┆ 6   ┆ null ┆ null ┆ null │
+    │ 10      ┆ 6   ┆ null ┆ null ┆ null │
     └─────────┴─────┴──────┴──────┴──────┘
 
 
@@ -402,8 +402,8 @@ print("player box rows:", pbox.shape)
     │ Tyler Thomas         ┆ Hofstra                 ┆ 33  ┆ 22.5 │
     │ Xavier Johnson       ┆ S Illinois              ┆ 32  ┆ 22.2 │
     │ David Jones          ┆ Memphis                 ┆ 32  ┆ 21.8 │
-    │ Tyson Acuff          ┆ E Michigan              ┆ 27  ┆ 21.7 │
     │ Dalton Knecht        ┆ Tennessee               ┆ 36  ┆ 21.7 │
+    │ Tyson Acuff          ┆ E Michigan              ┆ 27  ┆ 21.7 │
     │ Tucker DeVries       ┆ Drake                   ┆ 34  ┆ 21.6 │
     │ Jordan Sears         ┆ UT Martin               ┆ 32  ┆ 21.6 │
     └──────────────────────┴─────────────────────────┴─────┴──────┘
@@ -505,8 +505,8 @@ print("team box rows:", tbox.shape)
     │ Houston Cougars     ┆ 37  ┆ 73.5 ┆ 57.6    ┆ 15.9       │
     │ Gonzaga Bulldogs    ┆ 35  ┆ 84.5 ┆ 69.1    ┆ 15.4       │
     │ Arizona Wildcats    ┆ 36  ┆ 87.1 ┆ 72.1    ┆ 15.0       │
-    │ Saint Mary's Gaels  ┆ 34  ┆ 74.0 ┆ 59.2    ┆ 14.8       │
     │ Auburn Tigers       ┆ 35  ┆ 83.1 ┆ 68.3    ┆ 14.8       │
+    │ Saint Mary's Gaels  ┆ 34  ┆ 74.0 ┆ 59.2    ┆ 14.8       │
     │ Iowa State Cyclones ┆ 37  ┆ 75.3 ┆ 61.5    ┆ 13.8       │
     │ James Madison Dukes ┆ 36  ┆ 83.2 ┆ 69.6    ┆ 13.6       │
     │ Purdue Boilermakers ┆ 39  ┆ 82.3 ┆ 69.0    ┆ 13.3       │
@@ -738,16 +738,16 @@ out
     │ ---   ┆ --- ┆ --- ┆ --- ┆ ---  ┆ ---      │
     │ str   ┆ str ┆ str ┆ str ┆ str  ┆ str      │
     ╞═══════╪═════╪═════╪═════╪══════╪══════════╡
-    │ 1     ┆ 37  ┆ 21  ┆ 16  ┆ null ┆ null     │
-    │ 2     ┆ 35  ┆ 21  ┆ 15  ┆ null ┆ null     │
-    │ 3     ┆ 35  ┆ 18  ┆ 17  ┆ null ┆ null     │
-    │ 4     ┆ 35  ┆ 23  ┆ 13  ┆ null ┆ null     │
-    │ 5     ┆ 35  ┆ 15  ┆ 20  ┆ null ┆ null     │
-    │ 6     ┆ 35  ┆ 19  ┆ 18  ┆ null ┆ null     │
-    │ 7     ┆ 35  ┆ 30  ┆ 9   ┆ null ┆ null     │
-    │ 8     ┆ 35  ┆ 19  ┆ 16  ┆ null ┆ null     │
-    │ 9     ┆ 34  ┆ 29  ┆ 6   ┆ null ┆ null     │
-    │ 10    ┆ 34  ┆ 36  ┆ 3   ┆ null ┆ null     │
+    │ 1     ┆ 6   ┆ 2   ┆ 4   ┆ null ┆ null     │
+    │ 2     ┆ 6   ┆ 1   ┆ 5   ┆ null ┆ null     │
+    │ 3     ┆ 6   ┆ 1   ┆ 5   ┆ null ┆ null     │
+    │ 4     ┆ 6   ┆ 2   ┆ 4   ┆ null ┆ null     │
+    │ 5     ┆ 6   ┆ 1   ┆ 5   ┆ null ┆ null     │
+    │ 6     ┆ 6   ┆ 2   ┆ 4   ┆ null ┆ null     │
+    │ 7     ┆ 5   ┆ 3   ┆ 2   ┆ null ┆ null     │
+    │ 8     ┆ 5   ┆ 3   ┆ 2   ┆ null ┆ null     │
+    │ 9     ┆ 5   ┆ 0   ┆ 5   ┆ null ┆ null     │
+    │ 10    ┆ 5   ┆ 1   ┆ 4   ┆ null ┆ null     │
     └───────┴─────┴─────┴─────┴──────┴──────────┘
 
 
@@ -839,10 +839,10 @@ pbox_pd["is_dd"] = (pbox_pd[["points", "rebounds", "assists"]] >= 10).sum(axis=1
     3              DJ Burns               YSU              22
     4           Oumar Ballo              ARIZ              20
     5         Armando Bacot               UNC              19
-    6          Saint Thomas              UNCO              19
-    7         Fardaws Aimaq               CAL              19
-    8           Riley Minix              MORE              19
-    9       Yaxel Lendeborg               UAB              19
+    6         Fardaws Aimaq               CAL              19
+    7       Yaxel Lendeborg               UAB              19
+    8          Saint Thomas              UNCO              19
+    9           Riley Minix              MORE              19
 
 
 
@@ -1073,7 +1073,13 @@ import os
 
 from sportsdataverse.mbb import torvik_ratings
 
-safe("torvik ratings", lambda: torvik_ratings(year=2025))
+# barttorvik.com answers HTTP 403 to cloud and CI machines, which is where the docs page is rendered.
+try:
+    torvik = torvik_ratings(year=2025)
+    print(f"✅ torvik ratings: {torvik.height} teams")
+except AssetFetchError as e:
+    torvik = None
+    print("Torvik blocks automated requests; run this locally" if "HTTP 403" in str(e) else f"⏭️  torvik ratings: {e}")
 
 if os.environ.get("KENPOM_EMAIL") and os.environ.get("KENPOM_PASSWORD"):
     from sportsdataverse.mbb import kenpom_ratings
@@ -1084,5 +1090,5 @@ else:
 
 ```
 
-    ⏭️  torvik ratings: AssetFetchError: barttorvik.com/2025_team_results.csv answered HTTP 403
+    Torvik blocks automated requests; run this locally
     no KenPom credentials - skipping kenpom_* (set KENPOM_EMAIL / KENPOM_PASSWORD)

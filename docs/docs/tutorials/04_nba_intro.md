@@ -54,7 +54,8 @@ releases — fast and reliable. Click any name for the full reference.
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
+pip install --pre "sportsdataverse[sdvplot,sportypy]"   # optional: the shot chart
 ```
 
 No API key needed — ESPN's public endpoints and the data releases are open. 😊
@@ -193,17 +194,16 @@ cols = ['team_display_name', 'wins', 'losses', 'win_percent', 'games_behind',
     │ ---                   ┆ ---  ┆ ---    ┆ ---         ┆ ---          ┆ ---                ┆ ---    │
     │ str                   ┆ f64  ┆ f64    ┆ f64         ┆ f64          ┆ f64                ┆ f64    │
     ╞═══════════════════════╪══════╪════════╪═════════════╪══════════════╪════════════════════╪════════╡
-    │ Detroit Pistons       ┆ 3.0  ┆ 0.0    ┆ 1.0         ┆ 0.0          ┆ 38.0               ┆ 3.0    │
-    │ Portland Trail        ┆ 2.0  ┆ 0.0    ┆ 1.0         ┆ 0.5          ┆ 49.0               ┆ 2.0    │
-    │ Blazers               ┆      ┆        ┆             ┆              ┆                    ┆        │
-    │ Minnesota             ┆ 3.0  ┆ 0.0    ┆ 1.0         ┆ 0.0          ┆ 70.0               ┆ 3.0    │
-    │ Timberwolves          ┆      ┆        ┆             ┆              ┆                    ┆        │
-    │ Oklahoma City Thunder ┆ 3.0  ┆ 0.0    ┆ 1.0         ┆ 0.0          ┆ 31.0               ┆ 3.0    │
+    │ San Antonio Spurs     ┆ 12.0 ┆ 2.0    ┆ 0.857143    ┆ 0.0          ┆ 180.0              ┆ 12.0   │
+    │ Los Angeles Lakers    ┆ 12.0 ┆ 2.0    ┆ 0.857143    ┆ 0.0          ┆ 111.0              ┆ 8.0    │
+    │ Boston Celtics        ┆ 11.0 ┆ 2.0    ┆ 0.846154    ┆ 0.0          ┆ 171.0              ┆ 6.0    │
+    │ Philadelphia 76ers    ┆ 11.0 ┆ 3.0    ┆ 0.785714    ┆ 0.5          ┆ 30.0               ┆ 2.0    │
     │ …                     ┆ …    ┆ …      ┆ …           ┆ …            ┆ …                  ┆ …      │
-    │ Houston Rockets       ┆ 3.0  ┆ 0.0    ┆ 1.0         ┆ 0.0          ┆ 29.0               ┆ 3.0    │
-    │ Philadelphia 76ers    ┆ 3.0  ┆ 1.0    ┆ 0.75        ┆ 0.5          ┆ 12.0               ┆ -1.0   │
-    │ Atlanta Hawks         ┆ 2.0  ┆ 1.0    ┆ 0.6666667   ┆ 1.0          ┆ 47.0               ┆ -1.0   │
-    │ Toronto Raptors       ┆ 2.0  ┆ 1.0    ┆ 0.6666667   ┆ 1.0          ┆ 30.0               ┆ -1.0   │
+    │ Minnesota             ┆ 9.0  ┆ 4.0    ┆ 0.6923077   ┆ 2.5          ┆ 150.0              ┆ -1.0   │
+    │ Timberwolves          ┆      ┆        ┆             ┆              ┆                    ┆        │
+    │ Memphis Grizzlies     ┆ 9.0  ┆ 4.0    ┆ 0.6923077   ┆ 2.5          ┆ 116.0              ┆ 2.0    │
+    │ Detroit Pistons       ┆ 8.0  ┆ 4.0    ┆ 0.6666667   ┆ 2.5          ┆ 65.0               ┆ -1.0   │
+    │ Oklahoma City Thunder ┆ 9.0  ┆ 5.0    ┆ 0.642857    ┆ 3.0          ┆ 71.0               ┆ 1.0    │
     └───────────────────────┴──────┴────────┴─────────────┴──────────────┴────────────────────┴────────┘
 
 
@@ -311,7 +311,7 @@ cols = ['event_date', 'opponent_abbreviation', 'home_away', 'game_result', 'scor
  if gamelog is not None and gamelog.height else 'gamelog unavailable')
 ```
 
-    ✅ LeBron gamelog — 5 rows
+    ✅ LeBron gamelog — 13 rows
 
 
 
@@ -323,11 +323,11 @@ cols = ['event_date', 'opponent_abbreviation', 'home_away', 'game_result', 'scor
     │ ---        ┆ ---                   ┆ ---       ┆ ---         ┆ ---   ┆ ---    ┆ ---    ┆ ---    │
     │ str        ┆ str                   ┆ str       ┆ str         ┆ str   ┆ str    ┆ str    ┆ str    │
     ╞════════════╪═══════════════════════╪═══════════╪═════════════╪═══════╪════════╪════════╪════════╡
-    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 33     ┆ 8-15   ┆ 53.3   │
-    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 33     ┆ 5-14   ┆ 35.7   │
-    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 34     ┆ 5-13   ┆ 38.5   │
-    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 25     ┆ 4-9    ┆ 44.4   │
-    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 18     ┆ 1-1    ┆ 100.0  │
+    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 33     ┆ 5-8    ┆ 62.5   │
+    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 29     ┆ 4-12   ┆ 33.3   │
+    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 33     ┆ 8-16   ┆ 50.0   │
+    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 32     ┆ 3-12   ┆ 25.0   │
+    │ null       ┆ null                  ┆ null      ┆ null        ┆ null  ┆ 33     ┆ 5-10   ┆ 50.0   │
     └────────────┴───────────────────────┴───────────┴─────────────┴───────┴────────┴────────┴────────┘
 
 
@@ -360,7 +360,7 @@ else:
 out
 ```
 
-    ✅ player boxscore release — 995 rows
+    ✅ player boxscore release — 5266 rows
 
 
 
@@ -402,7 +402,7 @@ else:
 out
 ```
 
-    ✅ team boxscore release — 72 rows
+    ✅ team boxscore release — 394 rows
 
 
 
@@ -414,15 +414,15 @@ out
     │ ---               ┆ --- ┆ ---     ┆ ---     ┆ ---  │
     │ str               ┆ u32 ┆ f64     ┆ f64     ┆ f64  │
     ╞═══════════════════╪═════╪═════════╪═════════╪══════╡
-    │ TOR               ┆ 2   ┆ 123.5   ┆ 97.0    ┆ 26.5 │
-    │ POR               ┆ 2   ┆ 126.0   ┆ 101.5   ┆ 24.5 │
-    │ MIN               ┆ 2   ┆ 123.0   ┆ 99.5    ┆ 23.5 │
-    │ ATL               ┆ 3   ┆ 124.7   ┆ 109.0   ┆ 15.7 │
+    │ BOS               ┆ 13  ┆ 115.5   ┆ 102.4   ┆ 13.1 │
+    │ SA                ┆ 14  ┆ 118.8   ┆ 105.9   ┆ 12.9 │
+    │ MIN               ┆ 13  ┆ 118.3   ┆ 106.8   ┆ 11.5 │
+    │ HOU               ┆ 14  ┆ 118.4   ┆ 108.2   ┆ 10.2 │
     │ …                 ┆ …   ┆ …       ┆ …       ┆ …    │
-    │ OKC               ┆ 2   ┆ 106.0   ┆ 94.0    ┆ 12.0 │
-    │ MEM               ┆ 2   ┆ 117.0   ┆ 105.5   ┆ 11.5 │
-    │ HOU               ┆ 3   ┆ 121.0   ┆ 111.3   ┆ 9.7  │
-    │ LAC               ┆ 2   ┆ 119.0   ┆ 110.5   ┆ 8.5  │
+    │ POR               ┆ 12  ┆ 119.6   ┆ 111.8   ┆ 7.8  │
+    │ NY                ┆ 13  ┆ 109.9   ┆ 104.0   ┆ 5.9  │
+    │ DET               ┆ 12  ┆ 115.7   ┆ 110.2   ┆ 5.5  │
+    │ OKC               ┆ 14  ┆ 112.1   ┆ 107.1   ┆ 5.0  │
     └───────────────────┴─────┴─────────┴─────────┴──────┘
 
 
@@ -460,15 +460,15 @@ out
     │ ---               ┆ ---  ┆ --- ┆ ---          │
     │ str               ┆ i32  ┆ i32 ┆ f64          │
     ╞═══════════════════╪══════╪═════╪══════════════╡
-    │ DET               ┆ 33   ┆ 78  ┆ 42.3         │
-    │ HOU               ┆ 40   ┆ 96  ┆ 41.7         │
-    │ LAL               ┆ 25   ┆ 60  ┆ 41.7         │
-    │ LAC               ┆ 30   ┆ 72  ┆ 41.7         │
+    │ GS                ┆ 213  ┆ 541 ┆ 39.4         │
+    │ MEM               ┆ 202  ┆ 515 ┆ 39.2         │
+    │ LAC               ┆ 173  ┆ 442 ┆ 39.1         │
+    │ BOS               ┆ 215  ┆ 559 ┆ 38.5         │
     │ …                 ┆ …    ┆ …   ┆ …            │
-    │ BOS               ┆ 32   ┆ 81  ┆ 39.5         │
-    │ MEM               ┆ 28   ┆ 73  ┆ 38.4         │
-    │ MIL               ┆ 45   ┆ 121 ┆ 37.2         │
-    │ NY                ┆ 27   ┆ 73  ┆ 37.0         │
+    │ CLE               ┆ 216  ┆ 583 ┆ 37.0         │
+    │ MIN               ┆ 184  ┆ 499 ┆ 36.9         │
+    │ DET               ┆ 162  ┆ 442 ┆ 36.7         │
+    │ POR               ┆ 191  ┆ 523 ┆ 36.5         │
     └───────────────────┴──────┴─────┴──────────────┘
 
 
@@ -502,28 +502,28 @@ else:
 out
 ```
 
-    ✅ player boxscore release — 995 rows
+    ✅ player boxscore release — 5266 rows
 
 
 
 
 
     shape: (10, 3)
-    ┌──────────────────────┬───────────────────┬────────────────┐
-    │ athlete_display_name ┆ team_abbreviation ┆ double_doubles │
-    │ ---                  ┆ ---               ┆ ---            │
-    │ str                  ┆ str               ┆ u32            │
-    ╞══════════════════════╪═══════════════════╪════════════════╡
-    │ Amen Thompson        ┆ HOU               ┆ 3              │
-    │ Trae Young           ┆ WSH               ┆ 2              │
-    │ Karl-Anthony Towns   ┆ NY                ┆ 2              │
-    │ Domantas Sabonis     ┆ SAC               ┆ 2              │
-    │ …                    ┆ …                 ┆ …              │
-    │ Victor Wembanyama    ┆ SA                ┆ 2              │
-    │ Davion Mitchell      ┆ MIA               ┆ 2              │
-    │ Jalen Johnson        ┆ ATL               ┆ 2              │
-    │ Paul Reed            ┆ DET               ┆ 1              │
-    └──────────────────────┴───────────────────┴────────────────┘
+    ┌───────────────────────┬───────────────────┬────────────────┐
+    │ athlete_display_name  ┆ team_abbreviation ┆ double_doubles │
+    │ ---                   ┆ ---               ┆ ---            │
+    │ str                   ┆ str               ┆ u32            │
+    ╞═══════════════════════╪═══════════════════╪════════════════╡
+    │ Karl-Anthony Towns    ┆ NY                ┆ 13             │
+    │ Giannis Antetokounmpo ┆ MIA               ┆ 10             │
+    │ Victor Wembanyama     ┆ SA                ┆ 10             │
+    │ Nikola Jokic          ┆ DEN               ┆ 9              │
+    │ …                     ┆ …                 ┆ …              │
+    │ Anthony Davis         ┆ WSH               ┆ 7              │
+    │ Davion Mitchell       ┆ MIA               ┆ 7              │
+    │ Alperen Sengun        ┆ HOU               ┆ 7              │
+    │ Franz Wagner          ┆ ORL               ┆ 6              │
+    └───────────────────────┴───────────────────┴────────────────┘
 
 
 
@@ -552,13 +552,36 @@ else:
 out
 ```
 
-    ✅ standings release — 0 rows
+    ✅ standings release — 660 rows
 
 
 
 
 
-    'standings release unavailable'
+    shape: (12, 7)
+    ┌─────────────────────┬────────────┬────────┬─────────────┬────────────────────┬────────────┬──────┐
+    │ team_abbreviation   ┆ group_name ┆ losses ┆ playoffSeed ┆ pointDifferential  ┆ winPercent ┆ wins │
+    │ ---                 ┆ ---        ┆ ---    ┆ ---         ┆ ---                ┆ ---        ┆ ---  │
+    │ str                 ┆ str        ┆ f64    ┆ f64         ┆ f64                ┆ f64        ┆ f64  │
+    ╞═════════════════════╪════════════╪════════╪═════════════╪════════════════════╪════════════╪══════╡
+    │ SA                  ┆ Western    ┆ 2.0    ┆ 1.0         ┆ 180.0              ┆ 0.857143   ┆ 12.0 │
+    │                     ┆ Conference ┆        ┆             ┆                    ┆            ┆      │
+    │ LAL                 ┆ Western    ┆ 2.0    ┆ 2.0         ┆ 111.0              ┆ 0.857143   ┆ 12.0 │
+    │                     ┆ Conference ┆        ┆             ┆                    ┆            ┆      │
+    │ BOS                 ┆ Eastern    ┆ 2.0    ┆ 1.0         ┆ 171.0              ┆ 0.846154   ┆ 11.0 │
+    │                     ┆ Conference ┆        ┆             ┆                    ┆            ┆      │
+    │ PHI                 ┆ Eastern    ┆ 3.0    ┆ 2.0         ┆ 30.0               ┆ 0.785714   ┆ 11.0 │
+    │                     ┆ Conference ┆        ┆             ┆                    ┆            ┆      │
+    │ …                   ┆ …          ┆ …      ┆ …           ┆ …                  ┆ …          ┆ …    │
+    │ DET                 ┆ Eastern    ┆ 4.0    ┆ 3.0         ┆ 65.0               ┆ 0.6666667  ┆ 8.0  │
+    │                     ┆ Conference ┆        ┆             ┆                    ┆            ┆      │
+    │ OKC                 ┆ Western    ┆ 5.0    ┆ 7.0         ┆ 71.0               ┆ 0.642857   ┆ 9.0  │
+    │                     ┆ Conference ┆        ┆             ┆                    ┆            ┆      │
+    │ DEN                 ┆ Western    ┆ 4.0    ┆ 8.0         ┆ 20.0               ┆ 0.6363636  ┆ 7.0  │
+    │                     ┆ Conference ┆        ┆             ┆                    ┆            ┆      │
+    │ GS                  ┆ Western    ┆ 5.0    ┆ 9.0         ┆ 56.0               ┆ 0.615385   ┆ 8.0  │
+    │                     ┆ Conference ┆        ┆             ┆                    ┆            ┆      │
+    └─────────────────────┴────────────┴────────┴─────────────┴────────────────────┴────────────┴──────┘
 
 
 
@@ -592,7 +615,7 @@ else:
 out
 ```
 
-    ✅ shots release — 8390 rows
+    ✅ shots release — 44712 rows
 
 
 
@@ -605,6 +628,52 @@ out
     │ str               ┆ u32         ┆ f64            │
     ╞═══════════════════╪═════════════╪════════════════╡
     └───────────────────┴─────────────┴────────────────┘
+
+
+
+### 📍 Chart: a season of shots on the court
+
+[`load_nba_stats_shots`](../nba/reference/loaders/stats-2.md#load_nba_stats_shots) carries the stats API's shot locations
+(`x_legacy` / `y_legacy`, tenths of a foot from the hoop). [sdvplot](https://sdvplot.sportsdataverse.org/)'s `court_coords` moves them onto
+the court `surface("nba")` draws, here for the season's highest-volume shooter, in team colours.
+
+
+```python
+# Needs the plotting extra: pip install --pre "sportsdataverse[sdvplot,sportypy]"
+from IPython.display import Markdown, display
+
+try:
+    import matplotlib.pyplot as plt
+    import sdvplot
+    import sportypy  # noqa: F401 -- sdvplot.surface() draws with it
+except ImportError:
+    plt = None
+
+# The stats-shots release takes the START year: SEASON - 2 is the last complete season.
+stats_shots = None if plt is None else safe('stats shots release', lambda: sdv.nba.load_nba_stats_shots(seasons=SEASON - 2))
+if plt is None or stats_shots is None or stats_shots.height == 0:
+    display(Markdown('_Shot chart skipped: it needs `pip install --pre "sportsdataverse[sdvplot,sportypy]"` and the shots release._'))
+else:
+    pid, player, team, _ = (stats_shots.group_by('person_id', 'player_name', 'team_tricode').len()
+                            .sort('len', descending=True).row(0))
+    pts = sdvplot.court_coords(stats_shots.filter(pl.col('person_id') == pid))
+    made, missed = pts.filter(pl.col('shot_result') == 'Made'), pts.filter(pl.col('shot_result') != 'Made')
+
+    ax = sdvplot.surface('nba', display_range='defense')
+    ax.scatter(missed['court_x'], missed['court_y'], s=5, color='lightgrey', alpha=0.6, zorder=10, label='missed')
+    ax.scatter(made['court_x'], made['court_y'], s=7, color=sdvplot.team_colors('nba', team),
+               edgecolors='black', linewidths=0.2, zorder=10, label='made')
+    ax.set_title(f'{player} ({team}): {made.height} of {pts.height} shots made')
+    ax.legend(loc='upper right')
+    plt.show()
+```
+
+    ✅ stats shots release — 234876 rows
+
+
+
+
+![png](04_nba_intro_files/04_nba_intro_32_1.png)
 
 
 
@@ -676,7 +745,7 @@ else:
 out
 ```
 
-    ✅ injuries — 27 rows
+    ✅ injuries — 28 rows
 
 
 
@@ -688,15 +757,15 @@ out
     │ ---                   ┆ ---            │
     │ str                   ┆ i64            │
     ╞═══════════════════════╪════════════════╡
+    │ Memphis Grizzlies     ┆ 7              │
     │ Dallas Mavericks      ┆ 6              │
     │ Golden State Warriors ┆ 6              │
-    │ Oklahoma City Thunder ┆ 6              │
-    │ Philadelphia 76ers    ┆ 6              │
+    │ Atlanta Hawks         ┆ 5              │
     │ …                     ┆ …              │
+    │ Philadelphia 76ers    ┆ 5              │
+    │ Sacramento Kings      ┆ 5              │
+    │ Utah Jazz             ┆ 5              │
     │ Indiana Pacers        ┆ 4              │
-    │ Sacramento Kings      ┆ 4              │
-    │ Chicago Bulls         ┆ 3              │
-    │ Detroit Pistons       ┆ 3              │
     └───────────────────────┴────────────────┘
 
 
@@ -900,7 +969,7 @@ polars pipeline — cast the scores, sum them, sort descending.
 
 ## stats.nba.com surface (`nba_stats_*`)
 
-Beyond the ESPN wrappers, `sportsdataverse.nba` also ships **128 wrappers** for the official `stats.nba.com` API — the same source powering [nba_api](https://github.com/swar/nba_api). The module is `nba_stats` and every function is named `nba_stats_<slug>`. These are the **capture-confirmed live, non-deprecated** endpoints; deprecated and never-populated endpoints are excluded (see `ENDPOINT_HEALTH.md` in `sdv-internal-refs` for the full active/dying/barren/dead matrix).
+Beyond the ESPN wrappers, `sportsdataverse.nba` also ships **128 wrappers** for the official `stats.nba.com` API — the same source powering [nba_api](https://github.com/swar/nba_api). The module is `nba_stats` and every function is named `nba_stats_<slug>`. These are the **capture-confirmed live, non-deprecated** endpoints; deprecated endpoints and endpoints that never return rows are left out, so every wrapper listed answers with data.
 
 **League routing** is a single `league_id` parameter: `"00"` → NBA, `"20"` → G-League, `"15"` → Summer League. One stem, one host, league chosen per call.
 
@@ -931,49 +1000,17 @@ print('career result sets:', list(career.keys()) if isinstance(career, dict) els
 df
 ```
 
-    ✅ nba_stats_leaguedashplayerstats (NBA) — 582 rows
+    ⏭️  nba_stats_leaguedashplayerstats (NBA): AssetFetchError: stats.nba.com/stats/leaguedashplayerstats: fetch failed after retries: Timeout
 
 
-    ✅ nba_stats_leaguedashplayerstats (G-League) — 526 rows
+    ⏭️  nba_stats_leaguedashplayerstats (G-League): AssetFetchError: stats.nba.com/stats/leaguedashplayerstats: fetch failed after retries: Timeout
 
 
-    ✅ nba_stats_leaguedashplayerstats (Summer League) — 450 rows
+    ⏭️  nba_stats_leaguedashplayerstats (Summer League): AssetFetchError: stats.nba.com/stats/leaguedashplayerstats: fetch failed after retries: Timeout
 
 
-    ✅ nba_stats_playercareerstats (LeBron) — 14 rows
-    career result sets: ['SeasonTotalsRegularSeason', 'CareerTotalsRegularSeason', 'SeasonTotalsPostSeason', 'CareerTotalsPostSeason', 'SeasonTotalsAllStarSeason', 'CareerTotalsAllStarSeason', 'SeasonTotalsCollegeSeason', 'CareerTotalsCollegeSeason', 'SeasonTotalsShowcaseSeason', 'CareerTotalsShowcaseSeason', 'SeasonRankingsRegularSeason', 'SeasonRankingsPostSeason', 'SeasonHighs', 'CareerHighs']
-
-
-
-
-
-    shape: (582, 69)
-    ┌───────────┬────────────┬──────────┬───────────┬───┬──────────┬───────────┬───────────┬───────────┐
-    │ player_id ┆ player_nam ┆ nickname ┆ team_id   ┆ … ┆ td3_rank ┆ wnba_fant ┆ fp_high_s ┆ team_coun │
-    │ ---       ┆ e          ┆ ---      ┆ ---       ┆   ┆ ---      ┆ asy_pts_r ┆ core_rank ┆ t         │
-    │ i64       ┆ ---        ┆ str      ┆ i64       ┆   ┆ i64      ┆ ank       ┆ ---       ┆ ---       │
-    │           ┆ str        ┆          ┆           ┆   ┆          ┆ ---       ┆ i64       ┆ i64       │
-    │           ┆            ┆          ┆           ┆   ┆          ┆ i64       ┆           ┆           │
-    ╞═══════════╪════════════╪══════════╪═══════════╪═══╪══════════╪═══════════╪═══════════╪═══════════╡
-    │ 1630639   ┆ A.J.       ┆ A.J.     ┆ 161061276 ┆ … ┆ 38       ┆ 449       ┆ 454       ┆ 1         │
-    │           ┆ Lawson     ┆          ┆ 1         ┆   ┆          ┆           ┆           ┆           │
-    │ 1631260   ┆ AJ Green   ┆ AJ       ┆ 161061274 ┆ … ┆ 38       ┆ 139       ┆ 167       ┆ 1         │
-    │           ┆            ┆          ┆ 9         ┆   ┆          ┆           ┆           ┆           │
-    │ 1642358   ┆ AJ Johnson ┆ AJ       ┆ 161061274 ┆ … ┆ 38       ┆ 413       ┆ 412       ┆ 2         │
-    │           ┆            ┆          ┆ 2         ┆   ┆          ┆           ┆           ┆           │
-    │ 203932    ┆ Aaron      ┆ Aaron    ┆ 161061274 ┆ … ┆ 38       ┆ 241       ┆ 250       ┆ 1         │
-    │           ┆ Gordon     ┆          ┆ 3         ┆   ┆          ┆           ┆           ┆           │
-    │ …         ┆ …          ┆ …        ┆ …         ┆ … ┆ …        ┆ …         ┆ …         ┆ …         │
-    │ 1630192   ┆ Zeke Nnaji ┆ Zeke     ┆ 161061274 ┆ … ┆ 38       ┆ 371       ┆ 373       ┆ 1         │
-    │           ┆            ┆          ┆ 3         ┆   ┆          ┆           ┆           ┆           │
-    │ 1630533   ┆ Ziaire     ┆ Ziaire   ┆ 161061275 ┆ … ┆ 38       ┆ 233       ┆ 244       ┆ 1         │
-    │           ┆ Williams   ┆          ┆ 1         ┆   ┆          ┆           ┆           ┆           │
-    │ 1629627   ┆ Zion       ┆ Zion     ┆ 161061274 ┆ … ┆ 38       ┆ 70        ┆ 65        ┆ 1         │
-    │           ┆ Williamson ┆          ┆ 0         ┆   ┆          ┆           ┆           ┆           │
-    │ 1642389   ┆ Zyon       ┆ Zyon     ┆ 161061275 ┆ … ┆ 38       ┆ 537       ┆ 533       ┆ 1         │
-    │           ┆ Pullin     ┆          ┆ 0         ┆   ┆          ┆           ┆           ┆           │
-    └───────────┴────────────┴──────────┴───────────┴───┴──────────┴───────────┴───────────┴───────────┘
-
+    ⏭️  nba_stats_playercareerstats (LeBron): AssetFetchError: stats.nba.com/stats/playercareerstats: fetch failed after retries: Timeout
+    career result sets: None
 
 
 
@@ -1000,21 +1037,21 @@ out
 
 
     shape: (10, 5)
-    ┌───────────────────┬──────────────────────┬───────────────────────┬────────────┬────────────┐
-    │ date              ┆ home_display_name    ┆ away_display_name     ┆ home_score ┆ away_score │
-    │ ---               ┆ ---                  ┆ ---                   ┆ ---        ┆ ---        │
-    │ str               ┆ str                  ┆ str                   ┆ i32        ┆ i32        │
-    ╞═══════════════════╪══════════════════════╪═══════════════════════╪════════════╪════════════╡
-    │ 2026-10-25T01:00Z ┆ Denver Nuggets       ┆ New Orleans Pelicans  ┆ 141        ┆ 135        │
-    │ 2026-10-23T20:00Z ┆ Milwaukee Bucks      ┆ Chicago Bulls         ┆ 125        ┆ 132        │
-    │ 2026-10-21T23:00Z ┆ Orlando Magic        ┆ Atlanta Hawks         ┆ 125        ┆ 132        │
-    │ 2026-10-25T02:00Z ┆ Phoenix Suns         ┆ Golden State Warriors ┆ 131        ┆ 122        │
-    │ …                 ┆ …                    ┆ …                     ┆ …          ┆ …          │
-    │ 2026-10-25T00:00Z ┆ Chicago Bulls        ┆ Washington Wizards    ┆ 120        ┆ 124        │
-    │ 2026-10-21T23:00Z ┆ Washington Wizards   ┆ Milwaukee Bucks       ┆ 128        ┆ 116        │
-    │ 2026-10-24T23:30Z ┆ Philadelphia 76ers   ┆ Milwaukee Bucks       ┆ 127        ┆ 116        │
-    │ 2026-10-22T00:00Z ┆ New Orleans Pelicans ┆ Indiana Pacers        ┆ 120        ┆ 123        │
-    └───────────────────┴──────────────────────┴───────────────────────┴────────────┴────────────┘
+    ┌───────────────────┬────────────────────┬────────────────────────┬────────────┬────────────┐
+    │ date              ┆ home_display_name  ┆ away_display_name      ┆ home_score ┆ away_score │
+    │ ---               ┆ ---                ┆ ---                    ┆ ---        ┆ ---        │
+    │ str               ┆ str                ┆ str                    ┆ i32        ┆ i32        │
+    ╞═══════════════════╪════════════════════╪════════════════════════╪════════════╪════════════╡
+    │ 2026-11-13T00:00Z ┆ Washington Wizards ┆ Detroit Pistons        ┆ 140        ┆ 144        │
+    │ 2026-10-25T01:00Z ┆ Denver Nuggets     ┆ New Orleans Pelicans   ┆ 141        ┆ 135        │
+    │ 2026-11-07T00:00Z ┆ Atlanta Hawks      ┆ Washington Wizards     ┆ 139        ┆ 132        │
+    │ 2026-10-31T00:00Z ┆ Miami Heat         ┆ Indiana Pacers         ┆ 145        ┆ 125        │
+    │ …                 ┆ …                  ┆ …                      ┆ …          ┆ …          │
+    │ 2026-10-28T03:00Z ┆ Los Angeles Lakers ┆ Portland Trail Blazers ┆ 129        ┆ 136        │
+    │ 2026-11-09T02:00Z ┆ LA Clippers        ┆ New Orleans Pelicans   ┆ 139        ┆ 123        │
+    │ 2026-10-29T00:00Z ┆ Chicago Bulls      ┆ New York Knicks        ┆ 127        ┆ 133        │
+    │ 2026-10-23T20:00Z ┆ Milwaukee Bucks    ┆ Chicago Bulls          ┆ 125        ┆ 132        │
+    └───────────────────┴────────────────────┴────────────────────────┴────────────┴────────────┘
 
 
 
