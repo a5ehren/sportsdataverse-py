@@ -53,7 +53,7 @@ Everything returns a tidy **polars** `DataFrame` by default — pass `return_as_
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
 ```
 
 No key, no config — just import and go.
@@ -302,8 +302,8 @@ No loader is needed for a quick standings table: the schedule's `winner` column 
     │ Montreal  ┆ 13   │
     │ Boston    ┆ 12   │
     │ Minnesota ┆ 12   │
-    │ New York  ┆ 9    │
     │ Ottawa    ┆ 9    │
+    │ New York  ┆ 9    │
     └───────────┴──────┘
 
 
@@ -342,8 +342,8 @@ Aggregate the skater boxscore across every game to build a points leaderboard �
     │ Taylor       ┆ Heise           ┆ 9     ┆ 12      ┆ 21     │
     │ Ella         ┆ Shelton         ┆ 7     ┆ 14      ┆ 21     │
     │ Emma         ┆ Maltais         ┆ 5     ┆ 16      ┆ 21     │
-    │ Kendall      ┆ Coyne Schofield ┆ 7     ┆ 13      ┆ 20     │
     │ Brianne      ┆ Jenner          ┆ 9     ┆ 11      ┆ 20     │
+    │ Kendall      ┆ Coyne Schofield ┆ 7     ┆ 13      ┆ 20     │
     │ Erin         ┆ Ambrose         ┆ 4     ┆ 16      ┆ 20     │
     └──────────────┴─────────────────┴───────┴─────────┴────────┘
 
@@ -384,8 +384,8 @@ Sum saves and shots-against from the goalie boxscore, then compute a season save
     │ Aerin      ┆ Frankel    ┆ 790           ┆ 49            ┆ 0.938    │
     │ Kristen    ┆ Campbell   ┆ 718           ┆ 48            ┆ 0.933    │
     │ Corinne    ┆ Schroeder  ┆ 511           ┆ 36            ┆ 0.93     │
-    │ Maddie     ┆ Rooney     ┆ 362           ┆ 27            ┆ 0.925    │
     │ Nicole     ┆ Hensley    ┆ 492           ┆ 37            ┆ 0.925    │
+    │ Maddie     ┆ Rooney     ┆ 362           ┆ 27            ┆ 0.925    │
     │ Ann-Renée  ┆ Desbiens   ┆ 580           ┆ 44            ┆ 0.924    │
     │ Emerance   ┆ Maschmeyer ┆ 599           ┆ 51            ┆ 0.915    │
     │ Abbey      ┆ Levy       ┆ 254           ┆ 24            ┆ 0.906    │
@@ -599,9 +599,9 @@ Not every contribution shows up on the scoresheet. Sum hits and blocked shots fr
     │ Blayre     ┆ Turnbull   ┆ C        ┆ 62   ┆ 14     ┆ 76               │
     │ Allie      ┆ Munroe     ┆ LD       ┆ 44   ┆ 25     ┆ 69               │
     │ Jessica    ┆ DiGirolamo ┆ LD       ┆ 36   ┆ 31     ┆ 67               │
-    │ Lee        ┆ Stecklein  ┆ LD       ┆ 36   ┆ 25     ┆ 61               │
     │ Emma       ┆ Greco      ┆ LD       ┆ 32   ┆ 29     ┆ 61               │
     │ Emma       ┆ Maltais    ┆ LW       ┆ 53   ┆ 8      ┆ 61               │
+    │ Lee        ┆ Stecklein  ┆ LD       ┆ 36   ┆ 25     ┆ 61               │
     │ Kelly      ┆ Pannek     ┆ C        ┆ 28   ┆ 30     ┆ 58               │
     └────────────┴────────────┴──────────┴──────┴────────┴──────────────────┘
 
@@ -639,8 +639,8 @@ top_infractions
     │ Interference   ┆ 53    │
     │ Slashing       ┆ 35    │
     │ Boarding       ┆ 30    │
-    │ Cross Checking ┆ 26    │
     │ Holding        ┆ 26    │
+    │ Cross Checking ┆ 26    │
     └────────────────┴───────┘
 
 
@@ -675,9 +675,9 @@ top_infractions
     │ Megan          ┆ Keller        ┆ 22  ┆ 11        │
     │ Gabbie         ┆ Hughes        ┆ 20  ┆ 10        │
     │ Allie          ┆ Munroe        ┆ 20  ┆ 10        │
-    │ Emma           ┆ Maltais       ┆ 18  ┆ 9         │
+    │ Lee            ┆ Stecklein     ┆ 18  ┆ 9         │
+    │ Sarah          ┆ Nurse         ┆ 18  ┆ 9         │
     │ Sarah          ┆ Bujold        ┆ 18  ┆ 9         │
-    │ Renata         ┆ Fast          ┆ 18  ┆ 9         │
     └────────────────┴───────────────┴─────┴───────────┘
 
 
@@ -739,13 +739,13 @@ goals_by_period
     ╞═══════════════════╪══════════════════╪═══════╡
     │ Natalie           ┆ Spooner          ┆ 21    │
     │ Grace             ┆ Zumwinkle        ┆ 12    │
-    │ Sarah             ┆ Nurse            ┆ 11    │
     │ Marie-Philip      ┆ Poulin           ┆ 11    │
-    │ Laura             ┆ Stacey           ┆ 10    │
+    │ Sarah             ┆ Nurse            ┆ 11    │
     │ Daryl             ┆ Watts            ┆ 10    │
-    │ Gabbie            ┆ Hughes           ┆ 9     │
-    │ Taylor            ┆ Heise            ┆ 9     │
+    │ Laura             ┆ Stacey           ┆ 10    │
     │ Brianne           ┆ Jenner           ┆ 9     │
+    │ Taylor            ┆ Heise            ┆ 9     │
+    │ Gabbie            ┆ Hughes           ┆ 9     │
     │ Michela           ┆ Cava             ┆ 9     │
     └───────────────────┴──────────────────┴───────┘
 
@@ -786,7 +786,7 @@ three_stars = pwhl.load_pwhl_three_stars(seasons=[2024])
     │ Sarah        ┆ Nurse     ┆ 3           │
     │ Susanna      ┆ Tapani    ┆ 3           │
     │ Alex         ┆ Carpenter ┆ 3           │
-    │ Ann-Renée    ┆ Desbiens  ┆ 2           │
+    │ Michela      ┆ Cava      ┆ 2           │
     └──────────────┴───────────┴─────────────┘
 
 
@@ -1177,7 +1177,7 @@ xg.select(["game_id", "event_type", "shot_distance", "shot_angle", "xg"]).drop_n
     ┌─────────┬────────────┬───────────────┬────────────┬──────────┐
     │ game_id ┆ event_type ┆ shot_distance ┆ shot_angle ┆ xg       │
     │ ---     ┆ ---        ┆ ---           ┆ ---        ┆ ---      │
-    │ i32     ┆ str        ┆ f64           ┆ f64        ┆ f64      │
+    │ i64     ┆ str        ┆ f64           ┆ f64        ┆ f64      │
     ╞═════════╪════════════╪═══════════════╪════════════╪══════════╡
     │ 105     ┆ Default    ┆ 38.6912       ┆ 33.3136    ┆ 0.050259 │
     │ 105     ┆ Default    ┆ 46.5487       ┆ 21.4205    ┆ 0.053404 │

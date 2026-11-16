@@ -43,8 +43,11 @@ its END year (2026 is 2025-26) and space requests at least a second apart, so be
 ## 🔌 Setup
 
 ```sh
-pip install "sportsdataverse[sdvplot]"
+pip install --pre "sportsdataverse[sdvplot]"
 ```
+
+The `sdvplot` extra brings in sdvplot and matplotlib for the charts. `--pre` is needed while 0.2.0 is
+in beta.
 
 
 ```python
@@ -87,31 +90,7 @@ cols = ["start_date_time", "home_team_code", "home_team_score", "away_team_code"
 shl_sched.select([c for c in cols if c in shl_sched.columns]).tail(5) if shl_sched is not None else None
 ```
 
-    ✅ SHL schedule 2026
-
-
-
-
-
-    shape: (5, 6)
-    ┌─────────────────┬────────────────┬─────────────────┬────────────────┬────────────────┬───────────┐
-    │ start_date_time ┆ home_team_code ┆ home_team_score ┆ away_team_code ┆ away_team_scor ┆ state     │
-    │ ---             ┆ ---            ┆ ---             ┆ ---            ┆ e              ┆ ---       │
-    │ str             ┆ str            ┆ i64             ┆ str            ┆ ---            ┆ str       │
-    │                 ┆                ┆                 ┆                ┆ i64            ┆           │
-    ╞═════════════════╪════════════════╪═════════════════╪════════════════╪════════════════╪═══════════╡
-    │ 2026-03-14      ┆ TIK            ┆ 1               ┆ VLH            ┆ 3              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    │ 2026-03-14      ┆ LHC            ┆ 3               ┆ OHK            ┆ 2              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    │ 2026-03-14      ┆ DIF            ┆ 2               ┆ SAIK           ┆ 3              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    │ 2026-03-14      ┆ BIF            ┆ 3               ┆ HV71           ┆ 4              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    │ 2026-03-14      ┆ FHC            ┆ 4               ┆ MIF            ┆ 1              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    └─────────────────┴────────────────┴─────────────────┴────────────────┴────────────────┴───────────┘
-
+    ⏭️  SHL schedule 2026: AssetFetchError: www.shl.se/api/statistics-v2/layout-info: no ssgt directory in the body
 
 
 
@@ -123,26 +102,10 @@ shl_pbp = safe("SHL pbp", lambda: shl.shl_pbp(guid)) if guid else None
  else "no SHL play-by-play")
 ```
 
-    ✅ SHL pbp
 
 
 
-
-
-    shape: (7, 2)
-    ┌────────────┬───────┐
-    │ type       ┆ count │
-    │ ---        ┆ ---   │
-    │ str        ┆ u32   │
-    ╞════════════╪═══════╡
-    │ shot       ┆ 84    │
-    │ goalkeeper ┆ 6     │
-    │ goal       ┆ 5     │
-    │ insight    ┆ 4     │
-    │ penalty    ┆ 3     │
-    │ period     ┆ 3     │
-    │ timeout    ┆ 1     │
-    └────────────┴───────┘
+    'no SHL play-by-play'
 
 
 
@@ -173,14 +136,14 @@ cols = ["tournament", "ranking", "team_name", "games", "wins", "losses", "points
     │ ---        ┆ ---     ┆ ---       ┆ ---   ┆   ┆ ---    ┆ ---    ┆ ---   ┆ ---           │
     │ str        ┆ i64     ┆ str       ┆ i64   ┆   ┆ i64    ┆ i64    ┆ i64   ┆ i64           │
     ╞════════════╪═════════╪═══════════╪═══════╪═══╪════════╪════════╪═══════╪═══════════════╡
-    │ runkosarja ┆ 1       ┆ Lukko     ┆ 17    ┆ … ┆ 4      ┆ 35     ┆ 46    ┆ 32            │
-    │ runkosarja ┆ 2       ┆ SaiPa     ┆ 16    ┆ … ┆ 3      ┆ 34     ┆ 49    ┆ 27            │
-    │ runkosarja ┆ 3       ┆ Ilves     ┆ 17    ┆ … ┆ 5      ┆ 32     ┆ 48    ┆ 36            │
-    │ runkosarja ┆ 4       ┆ Jukurit   ┆ 18    ┆ … ┆ 6      ┆ 32     ┆ 44    ┆ 35            │
-    │ runkosarja ┆ 5       ┆ JYP       ┆ 14    ┆ … ┆ 3      ┆ 30     ┆ 44    ┆ 35            │
-    │ runkosarja ┆ 6       ┆ Kärpät    ┆ 18    ┆ … ┆ 4      ┆ 30     ┆ 51    ┆ 50            │
-    │ runkosarja ┆ 7       ┆ Ässät     ┆ 17    ┆ … ┆ 6      ┆ 28     ┆ 38    ┆ 40            │
-    │ runkosarja ┆ 8       ┆ TPS       ┆ 17    ┆ … ┆ 7      ┆ 27     ┆ 47    ┆ 42            │
+    │ runkosarja ┆ 1       ┆ JYP       ┆ 20    ┆ … ┆ 4      ┆ 44     ┆ 71    ┆ 52            │
+    │ runkosarja ┆ 2       ┆ Lukko     ┆ 20    ┆ … ┆ 4      ┆ 43     ┆ 57    ┆ 37            │
+    │ runkosarja ┆ 3       ┆ Ilves     ┆ 23    ┆ … ┆ 7      ┆ 43     ┆ 62    ┆ 45            │
+    │ runkosarja ┆ 4       ┆ Jukurit   ┆ 23    ┆ … ┆ 7      ┆ 42     ┆ 60    ┆ 46            │
+    │ runkosarja ┆ 5       ┆ Ässät     ┆ 23    ┆ … ┆ 8      ┆ 40     ┆ 55    ┆ 53            │
+    │ runkosarja ┆ 6       ┆ SaiPa     ┆ 20    ┆ … ┆ 6      ┆ 37     ┆ 57    ┆ 44            │
+    │ runkosarja ┆ 7       ┆ TPS       ┆ 21    ┆ … ┆ 7      ┆ 36     ┆ 60    ┆ 53            │
+    │ runkosarja ┆ 8       ┆ Kärpät    ┆ 22    ┆ … ┆ 6      ┆ 36     ┆ 59    ┆ 60            │
     └────────────┴─────────┴───────────┴───────┴───┴────────┴────────┴───────┴───────────────┘
 
 
@@ -202,8 +165,8 @@ out
     ✅ Liiga games
 
 
-    ✅ Liiga shotmap 2701415
-    Sport 1 - 3 SaiPa
+    ✅ Liiga shotmap 2701526
+    Ilves 3 - 1 SaiPa
 
 
 
@@ -215,10 +178,10 @@ out
     │ ---            ┆ --- │
     │ str            ┆ u32 │
     ╞════════════════╪═════╡
-    │ PLAYER_BLOCKED ┆ 25  │
-    │ MISSED         ┆ 27  │
+    │ GOALIE_BLOCKED ┆ 44  │
+    │ PLAYER_BLOCKED ┆ 12  │
+    │ MISSED         ┆ 25  │
     │ GOAL           ┆ 4   │
-    │ GOALIE_BLOCKED ┆ 41  │
     └────────────────┴─────┘
 
 
@@ -327,14 +290,14 @@ cols = ["table", "rank", "name", "gp", "w", "l", "pts", "goals_for", "goals_agai
     │ ---    ┆ ---  ┆ ---          ┆ --- ┆   ┆ --- ┆ --- ┆ ---       ┆ ---           │
     │ str    ┆ i64  ┆ str          ┆ i64 ┆   ┆ i64 ┆ i64 ┆ i64       ┆ i64           │
     ╞════════╪══════╪══════════════╪═════╪═══╪═════╪═════╪═══════════╪═══════════════╡
-    │ league ┆ 1    ┆ Металлург Мг ┆ 20  ┆ … ┆ 3   ┆ 32  ┆ 67        ┆ 39            │
-    │ league ┆ 2    ┆ Локомотив    ┆ 19  ┆ … ┆ 5   ┆ 28  ┆ 49        ┆ 33            │
-    │ league ┆ 3    ┆ ЦСКА         ┆ 19  ┆ … ┆ 5   ┆ 28  ┆ 58        ┆ 36            │
-    │ league ┆ 4    ┆ Драконы      ┆ 18  ┆ … ┆ 4   ┆ 26  ┆ 56        ┆ 44            │
-    │ league ┆ 5    ┆ Спартак      ┆ 19  ┆ … ┆ 5   ┆ 25  ┆ 51        ┆ 35            │
-    │ league ┆ 6    ┆ Нефтехимик   ┆ 19  ┆ … ┆ 6   ┆ 24  ┆ 55        ┆ 46            │
-    │ league ┆ 7    ┆ Северсталь   ┆ 20  ┆ … ┆ 7   ┆ 24  ┆ 46        ┆ 43            │
-    │ league ┆ 8    ┆ Торпедо      ┆ 18  ┆ … ┆ 5   ┆ 24  ┆ 49        ┆ 36            │
+    │ league ┆ 1    ┆ ЦСКА         ┆ 26  ┆ … ┆ 5   ┆ 40  ┆ 84        ┆ 48            │
+    │ league ┆ 2    ┆ Локомотив    ┆ 26  ┆ … ┆ 6   ┆ 39  ┆ 72        ┆ 39            │
+    │ league ┆ 3    ┆ Металлург Мг ┆ 27  ┆ … ┆ 6   ┆ 39  ┆ 94        ┆ 66            │
+    │ league ┆ 4    ┆ Торпедо      ┆ 26  ┆ … ┆ 7   ┆ 35  ┆ 69        ┆ 57            │
+    │ league ┆ 5    ┆ Спартак      ┆ 27  ┆ … ┆ 9   ┆ 32  ┆ 75        ┆ 63            │
+    │ league ┆ 6    ┆ Северсталь   ┆ 26  ┆ … ┆ 9   ┆ 32  ┆ 63        ┆ 60            │
+    │ league ┆ 7    ┆ Амур         ┆ 26  ┆ … ┆ 10  ┆ 31  ┆ 54        ┆ 42            │
+    │ league ┆ 8    ┆ Нефтехимик   ┆ 27  ┆ … ┆ 10  ┆ 31  ┆ 72        ┆ 76            │
     └────────┴──────┴──────────────┴─────┴───┴─────┴─────┴───────────┴───────────────┘
 
 
@@ -391,7 +354,7 @@ wsb.select([c for c in cols if c in wsb.columns]) if wsb is not None and wsb.hei
     │ ---               ┆ ---        ┆ ---                             ┆ ---        ┆ ---        │
     │ str               ┆ str        ┆ str                             ┆ str        ┆ str        │
     ╞═══════════════════╪════════════╪═════════════════════════════════╪════════════╪════════════╡
-    │ 2026-10-26T15:00Z ┆ MNST @ BC  ┆ Mon, October 26th at 11:00 AM … ┆ 0          ┆ 0          │
+    │ 2026-11-17T23:00Z ┆ COLG @ SYR ┆ Tue, November 17th at 6:00 PM … ┆ 0          ┆ 0          │
     └───────────────────┴────────────┴─────────────────────────────────┴────────────┴────────────┘
 
 

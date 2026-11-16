@@ -47,7 +47,8 @@ Every accessor returns a tidy **polars** `DataFrame` by default — pass `return
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
+pip install --pre "sportsdataverse[sdvplot,sportypy]"   # optional: the shot chart
 ```
 
 That's it — the ESPN endpoints are public, so there's nothing to configure. 😊
@@ -96,13 +97,13 @@ print('shape:', None if teams is None else teams.shape)
 ```
 
     ✅ WNBA teams
-    shape: (15, 14)
+    shape: (14, 14)
 
 
 
 
 
-    shape: (15, 5)
+    shape: (14, 5)
     ┌─────────┬───────────────┬───────────┬───────────────────┬────────────────────────┐
     │ team_id ┆ team_location ┆ team_name ┆ team_abbreviation ┆ team_display_name      │
     │ ---     ┆ ---           ┆ ---       ┆ ---               ┆ ---                    │
@@ -110,9 +111,9 @@ print('shape:', None if teams is None else teams.shape)
     ╞═════════╪═══════════════╪═══════════╪═══════════════════╪════════════════════════╡
     │ 20      ┆ Atlanta       ┆ Dream     ┆ ATL               ┆ Atlanta Dream          │
     │ 19      ┆ Chicago       ┆ Sky       ┆ CHI               ┆ Chicago Sky            │
-    │ 18      ┆ Connecticut   ┆ Sun       ┆ CON               ┆ Connecticut Sun        │
     │ 3       ┆ Dallas        ┆ Wings     ┆ DAL               ┆ Dallas Wings           │
     │ 129689  ┆ Golden State  ┆ Valkyries ┆ GS                ┆ Golden State Valkyries │
+    │ 5       ┆ Indiana       ┆ Fever     ┆ IND               ┆ Indiana Fever          │
     │ …       ┆ …             ┆ …         ┆ …                 ┆ …                      │
     │ 11      ┆ Phoenix       ┆ Mercury   ┆ PHX               ┆ Phoenix Mercury        │
     │ 132052  ┆ Portland      ┆ Fire      ┆ POR               ┆ Portland Fire          │
@@ -485,8 +486,8 @@ top_scorers
     │ Napheesa Collier     ┆ MIN               ┆ 47    ┆ 1000         ┆ 21.3 ┆ 3.4 │
     │ Kahleah Copper       ┆ PHX               ┆ 39    ┆ 811          ┆ 20.8 ┆ 2.3 │
     │ Breanna Stewart      ┆ NY                ┆ 50    ┆ 1014         ┆ 20.3 ┆ 3.5 │
-    │ Caitlin Clark        ┆ IND               ┆ 42    ┆ 805          ┆ 19.2 ┆ 8.4 │
     │ Kelsey Mitchell      ┆ IND               ┆ 42    ┆ 805          ┆ 19.2 ┆ 1.9 │
+    │ Caitlin Clark        ┆ IND               ┆ 42    ┆ 805          ┆ 19.2 ┆ 8.4 │
     │ Jewell Loyd          ┆ SEA               ┆ 39    ┆ 744          ┆ 19.1 ┆ 3.6 │
     │ Sabrina Ionescu      ┆ NY                ┆ 50    ┆ 900          ┆ 18.0 ┆ 5.9 │
     │ Brittney Griner      ┆ PHX               ┆ 32    ┆ 568          ┆ 17.8 ┆ 2.2 │
@@ -729,6 +730,52 @@ threes.join(team_names, on='team_id', how='left').select(
 
 
 
+### 📍 Chart: a season of shots on the court
+
+[`load_wnba_stats_shots`](../wnba/reference/loaders/stats.md#load_wnba_stats_shots) carries the stats API's shot locations
+(`x_legacy` / `y_legacy`, tenths of a foot from the hoop). [sdvplot](https://sdvplot.sportsdataverse.org/)'s `court_coords` moves them onto
+the court `surface("wnba")` draws, here for the season's highest-volume shooter, in team colours.
+
+
+```python
+# Needs the plotting extra: pip install --pre "sportsdataverse[sdvplot,sportypy]"
+from IPython.display import Markdown, display
+
+try:
+    import matplotlib.pyplot as plt
+    import sdvplot
+    import sportypy  # noqa: F401 -- sdvplot.surface() draws with it
+except ImportError:
+    plt = None
+
+# WNBA seasons are single years.
+stats_shots = None if plt is None else safe('stats shots release', lambda: sdv.wnba.load_wnba_stats_shots(seasons=SEASON))
+if plt is None or stats_shots is None or stats_shots.height == 0:
+    display(Markdown('_Shot chart skipped: it needs `pip install --pre "sportsdataverse[sdvplot,sportypy]"` and the shots release._'))
+else:
+    pid, player, team, _ = (stats_shots.group_by('person_id', 'player_name', 'team_tricode').len()
+                            .sort('len', descending=True).row(0))
+    pts = sdvplot.court_coords(stats_shots.filter(pl.col('person_id') == pid))
+    made, missed = pts.filter(pl.col('shot_result') == 'Made'), pts.filter(pl.col('shot_result') != 'Made')
+
+    ax = sdvplot.surface('wnba', display_range='defense')
+    ax.scatter(missed['court_x'], missed['court_y'], s=5, color='lightgrey', alpha=0.6, zorder=10, label='missed')
+    ax.scatter(made['court_x'], made['court_y'], s=7, color=sdvplot.team_colors('wnba', team),
+               edgecolors='black', linewidths=0.2, zorder=10, label='made')
+    ax.set_title(f'{player} ({team}): {made.height} of {pts.height} shots made')
+    ax.legend(loc='upper right')
+    plt.show()
+```
+
+    ✅ stats shots release
+
+
+
+
+![png](08_wnba_intro_files/08_wnba_intro_38_1.png)
+
+
+
 ### Recipe 9 — Head-to-head series ⚔️
 
 Want every meeting between two clubs? Filter the team box-score loader on team + opponent abbreviations and you get the full season series — scores, dates and who won. Here's New York vs. Minnesota, the eventual 2024 Finals matchup.
@@ -847,21 +894,21 @@ position_mix
 
     shape: (12, 4)
     ┌───────────────────┬─────┬─────┬─────┐
-    │ team_abbreviation ┆ C   ┆ G   ┆ F   │
+    │ team_abbreviation ┆ G   ┆ C   ┆ F   │
     │ ---               ┆ --- ┆ --- ┆ --- │
     │ str               ┆ u32 ┆ u32 ┆ u32 │
     ╞═══════════════════╪═════╪═════╪═════╡
-    │ ATL               ┆ 1   ┆ 7   ┆ 4   │
-    │ CHI               ┆ 2   ┆ 9   ┆ 3   │
-    │ CONNECTICU        ┆ 2   ┆ 8   ┆ 5   │
-    │ DALLAS            ┆ 1   ┆ 7   ┆ 6   │
-    │ IND               ┆ 2   ┆ 8   ┆ 3   │
+    │ ATL               ┆ 7   ┆ 1   ┆ 4   │
+    │ CHI               ┆ 9   ┆ 2   ┆ 3   │
+    │ CONNECTICU        ┆ 8   ┆ 2   ┆ 5   │
+    │ DALLAS            ┆ 7   ┆ 1   ┆ 6   │
+    │ IND               ┆ 8   ┆ 2   ┆ 3   │
     │ …                 ┆ …   ┆ …   ┆ …   │
-    │ MIN               ┆ 1   ┆ 5   ┆ 8   │
-    │ NY                ┆ 2   ┆ 8   ┆ 5   │
-    │ PHX               ┆ 1   ┆ 7   ┆ 7   │
-    │ SEA               ┆ 3   ┆ 6   ┆ 5   │
-    │ WSH               ┆ 2   ┆ 9   ┆ 3   │
+    │ MIN               ┆ 5   ┆ 1   ┆ 8   │
+    │ NY                ┆ 8   ┆ 2   ┆ 5   │
+    │ PHX               ┆ 7   ┆ 1   ┆ 7   │
+    │ SEA               ┆ 6   ┆ 3   ┆ 5   │
+    │ WSH               ┆ 9   ┆ 2   ┆ 3   │
     └───────────────────┴─────┴─────┴─────┘
 
 
@@ -897,16 +944,16 @@ scoring_leaders
     │ ---                  ┆ ---               ┆ ---                           ┆ ---  │
     │ str                  ┆ str               ┆ str                           ┆ f64  │
     ╞══════════════════════╪═══════════════════╪═══════════════════════════════╪══════╡
-    │ A'ja Wilson          ┆ Las Vegas Aces    ┆ C                             ┆ 21.4 │
-    │ Olivia Miles         ┆ Minnesota Lynx    ┆ G                             ┆ 21.0 │
-    │ Breanna Stewart      ┆ Seattle Storm     ┆ F                             ┆ 20.5 │
-    │ Arike Ogunbowale     ┆ Dallas Wings      ┆ G                             ┆ 19.9 │
-    │ Paige Bueckers       ┆ Dallas Wings      ┆ G                             ┆ 19.2 │
-    │ Caitlin Clark        ┆ Indiana Fever     ┆ G                             ┆ 18.6 │
-    │ Napheesa Collier     ┆ Minnesota Lynx    ┆ F                             ┆ 18.4 │
-    │ Jovana Nogic         ┆ Phoenix Mercury   ┆ G                             ┆ 17.5 │
-    │ Kelsey Mitchell      ┆ Indiana Fever     ┆ G                             ┆ 17.4 │
-    │ Rhyne Howard         ┆ Atlanta Dream     ┆ G                             ┆ 17.1 │
+    │ A'ja Wilson          ┆ Las Vegas Aces    ┆ C                             ┆ 26.9 │
+    │ Arike Ogunbowale     ┆ Dallas Wings      ┆ G                             ┆ 22.2 │
+    │ Kahleah Copper       ┆ Phoenix Mercury   ┆ G                             ┆ 21.1 │
+    │ Breanna Stewart      ┆ New York Liberty  ┆ F                             ┆ 20.4 │
+    │ Napheesa Collier     ┆ Minnesota Lynx    ┆ F                             ┆ 20.4 │
+    │ Jewell Loyd          ┆ Seattle Storm     ┆ G                             ┆ 19.7 │
+    │ Kelsey Mitchell      ┆ Indiana Fever     ┆ G                             ┆ 19.2 │
+    │ Caitlin Clark        ┆ Indiana Fever     ┆ G                             ┆ 19.2 │
+    │ Sabrina Ionescu      ┆ New York Liberty  ┆ G                             ┆ 18.2 │
+    │ Satou Sabally        ┆ Dallas Wings      ┆ F                             ┆ 17.9 │
     └──────────────────────┴───────────────────┴───────────────────────────────┴──────┘
 
 
@@ -945,44 +992,8 @@ print('shape:', wdf.shape if wdf is not None else None)
 wdf
 ```
 
-    ✅ wnba_stats_leaguedashplayerstats
-    shape: (239, 69)
-
-
-
-
-
-    shape: (239, 69)
-    ┌───────────┬───────────┬───────────┬───────────┬───┬──────────┬───────────┬───────────┬───────────┐
-    │ player_id ┆ player_na ┆ nickname  ┆ team_id   ┆ … ┆ td3_rank ┆ wnba_fant ┆ fp_high_s ┆ team_coun │
-    │ ---       ┆ me        ┆ ---       ┆ ---       ┆   ┆ ---      ┆ asy_pts_r ┆ core_rank ┆ t         │
-    │ i64       ┆ ---       ┆ str       ┆ i64       ┆   ┆ i64      ┆ ank       ┆ ---       ┆ ---       │
-    │           ┆ str       ┆           ┆           ┆   ┆          ┆ ---       ┆ i64       ┆ i64       │
-    │           ┆           ┆           ┆           ┆   ┆          ┆ i64       ┆           ┆           │
-    ╞═══════════╪═══════════╪═══════════╪═══════════╪═══╪══════════╪═══════════╪═══════════╪═══════════╡
-    │ 1628932   ┆ A'ja      ┆ A'ja      ┆ 161166131 ┆ … ┆ 5        ┆ 1         ┆ 1         ┆ 1         │
-    │           ┆ Wilson    ┆           ┆ 9         ┆   ┆          ┆           ┆           ┆           │
-    │ 1642290   ┆ Aaliyah   ┆ Aaliyah   ┆ 161166132 ┆ … ┆ 5        ┆ 85        ┆ 88        ┆ 1         │
-    │           ┆ Edwards   ┆           ┆ 3         ┆   ┆          ┆           ┆           ┆           │
-    │ 1642801   ┆ Aaliyah   ┆ Aaliyah   ┆ 161166132 ┆ … ┆ 5        ┆ 203       ┆ 206       ┆ 2         │
-    │           ┆ Nye       ┆           ┆ 0         ┆   ┆          ┆           ┆           ┆           │
-    │ 1630462   ┆ Aari      ┆ Aari      ┆ 161166132 ┆ … ┆ 5        ┆ 203       ┆ 202       ┆ 1         │
-    │           ┆ McDonald  ┆           ┆ 4         ┆   ┆          ┆           ┆           ┆           │
-    │ 1642786   ┆ Aicha     ┆ Aicha     ┆ 161166132 ┆ … ┆ 5        ┆ 130       ┆ 129       ┆ 1         │
-    │           ┆ Coulibaly ┆           ┆ 9         ┆   ┆          ┆           ┆           ┆           │
-    │ …         ┆ …         ┆ …         ┆ …         ┆ … ┆ …        ┆ …         ┆ …         ┆ …         │
-    │ 1630112   ┆ Tyasha    ┆ Tyasha    ┆ 161166132 ┆ … ┆ 5        ┆ 126       ┆ 124       ┆ 1         │
-    │           ┆ Harris    ┆           ┆ 5         ┆   ┆          ┆           ┆           ┆           │
-    │ 204468    ┆ Valeriane ┆ Valeriane ┆ 161166131 ┆ … ┆ 5        ┆ 108       ┆ 109       ┆ 1         │
-    │           ┆ Ayayi     ┆           ┆ 7         ┆   ┆          ┆           ┆           ┆           │
-    │ 1631007   ┆ Veronica  ┆ Veronica  ┆ 161166133 ┆ … ┆ 5        ┆ 23        ┆ 18        ┆ 1         │
-    │           ┆ Burton    ┆           ┆ 1         ┆   ┆          ┆           ┆           ┆           │
-    │ 1642791   ┆ Zaay      ┆ Zaay      ┆ 161166133 ┆ … ┆ 5        ┆ 212       ┆ 216       ┆ 1         │
-    │           ┆ Green     ┆           ┆ 2         ┆   ┆          ┆           ┆           ┆           │
-    │ 1641660   ┆ Zia Cooke ┆ Zia       ┆ 161166132 ┆ … ┆ 5        ┆ 99        ┆ 103       ┆ 1         │
-    │           ┆           ┆           ┆ 8         ┆   ┆          ┆           ┆           ┆           │
-    └───────────┴───────────┴───────────┴───────────┴───┴──────────┴───────────┴───────────┴───────────┘
-
+    ⏭️  wnba_stats_leaguedashplayerstats: AssetFetchError: stats.wnba.com/stats/leaguedashplayerstats: fetch failed after retries: Timeout
+    shape: None
 
 
 

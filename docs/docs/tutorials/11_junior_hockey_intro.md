@@ -50,7 +50,7 @@ Every accessor returns **polars** by default (`return_as_pandas=True` for pandas
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
 ```
 
 
@@ -162,14 +162,14 @@ cols = ["team", "games_played", "wins", "losses", "ot_losses", "points", "goals_
     │ ---              ┆ ---          ┆ ---  ┆ ---    ┆ ---       ┆ ---    ┆ ---       ┆ ---           │
     │ str              ┆ str          ┆ str  ┆ str    ┆ str       ┆ i64    ┆ str       ┆ str           │
     ╞══════════════════╪══════════════╪══════╪════════╪═══════════╪════════╪═══════════╪═══════════════╡
-    │ Brantford        ┆ 14           ┆ 10   ┆ 3      ┆ 0         ┆ 21     ┆ 61        ┆ 36            │
+    │ Brantford        ┆ 21           ┆ 14   ┆ 6      ┆ 0         ┆ 29     ┆ 86        ┆ 58            │
     │ Bulldogs         ┆              ┆      ┆        ┆           ┆        ┆           ┆               │
-    │ Kingston         ┆ 14           ┆ 9    ┆ 5      ┆ 0         ┆ 18     ┆ 62        ┆ 57            │
+    │ Kingston         ┆ 22           ┆ 13   ┆ 8      ┆ 0         ┆ 27     ┆ 88        ┆ 80            │
     │ Frontenacs       ┆              ┆      ┆        ┆           ┆        ┆           ┆               │
-    │ Ottawa 67's      ┆ 12           ┆ 7    ┆ 3      ┆ 2         ┆ 16     ┆ 41        ┆ 37            │
-    │ Oshawa Generals  ┆ 15           ┆ 5    ┆ 6      ┆ 3         ┆ 14     ┆ 41        ┆ 47            │
-    │ Peterborough     ┆ 14           ┆ 6    ┆ 8      ┆ 0         ┆ 12     ┆ 44        ┆ 50            │
+    │ Peterborough     ┆ 22           ┆ 12   ┆ 10     ┆ 0         ┆ 24     ┆ 80        ┆ 73            │
     │ Petes            ┆              ┆      ┆        ┆           ┆        ┆           ┆               │
+    │ Ottawa 67's      ┆ 20           ┆ 10   ┆ 8      ┆ 2         ┆ 22     ┆ 63        ┆ 68            │
+    │ Oshawa Generals  ┆ 22           ┆ 7    ┆ 10     ┆ 4         ┆ 19     ┆ 67        ┆ 84            │
     └──────────────────┴──────────────┴──────┴────────┴───────────┴────────┴───────────┴───────────────┘
 
 
@@ -201,7 +201,7 @@ out
 
 
 
-    shape: (5, 45)
+    shape: (5, 46)
     ┌───────┬───────────┬────────┬────────────┬───┬──────────────┬─────────────┬─────────────┬─────────┐
     │ id    ┆ person_id ┆ active ┆ first_name ┆ … ┆ draft_status ┆ name        ┆ player_imag ┆ catches │
     │ ---   ┆ ---       ┆ ---    ┆ ---        ┆   ┆ ---          ┆ ---         ┆ e           ┆ ---     │
@@ -254,11 +254,11 @@ else:
     print("no schedule rows to pick a game_id from")
 ```
 
-    ✅ AHL pbp 1029204
+    ✅ AHL pbp 1029328
 
 
-    ✅ AHL corsi 1029204
-    pbp rows: 60 | corsi rows: 0
+    ✅ AHL corsi 1029328
+    pbp rows: 95 | corsi rows: 0
 
 
 ### Recipe 4 — Compare all four leagues at once 🔁
@@ -338,22 +338,22 @@ cols = ["rank", "name", "team_code", "position", "stat_formatted", "type_formatt
 
 
     shape: (10, 6)
-    ┌──────┬───────────────────┬───────────┬──────────┬────────────────┬────────────────┐
-    │ rank ┆ name              ┆ team_code ┆ position ┆ stat_formatted ┆ type_formatted │
-    │ ---  ┆ ---               ┆ ---       ┆ ---      ┆ ---            ┆ ---            │
-    │ i64  ┆ str               ┆ str       ┆ str      ┆ str            ┆ str            │
-    ╞══════╪═══════════════════╪═══════════╪══════════╪════════════════╪════════════════╡
-    │ 1    ┆ Philippe Veilleux ┆ VdO       ┆ LW       ┆ 31             ┆ Points         │
-    │ 2    ┆ James Scantlebury ┆ Que       ┆ C        ┆ 22             ┆ Points         │
-    │ 3    ┆ Egor Shilov       ┆ Vic       ┆ C        ┆ 21             ┆ Points         │
-    │ 4    ┆ Mathys Dubé       ┆ Rim       ┆ C        ┆ 20             ┆ Points         │
-    │ 5    ┆ Chad Lygitsakos   ┆ Sha       ┆ C        ┆ 20             ┆ Points         │
-    │ 1    ┆ Maxime Sauthier   ┆ VdO       ┆ C        ┆ 13             ┆ Goals          │
-    │ 2    ┆ Philippe Veilleux ┆ VdO       ┆ LW       ┆ 12             ┆ Goals          │
-    │ 3    ┆ Mathys Dubé       ┆ Rim       ┆ C        ┆ 12             ┆ Goals          │
-    │ 4    ┆ Alexey Vlasov     ┆ Vic       ┆ RW       ┆ 11             ┆ Goals          │
-    │ 5    ┆ James Scantlebury ┆ Que       ┆ C        ┆ 10             ┆ Goals          │
-    └──────┴───────────────────┴───────────┴──────────┴────────────────┴────────────────┘
+    ┌──────┬─────────────────────┬───────────┬──────────┬────────────────┬────────────────┐
+    │ rank ┆ name                ┆ team_code ┆ position ┆ stat_formatted ┆ type_formatted │
+    │ ---  ┆ ---                 ┆ ---       ┆ ---      ┆ ---            ┆ ---            │
+    │ i64  ┆ str                 ┆ str       ┆ str      ┆ str            ┆ str            │
+    ╞══════╪═════════════════════╪═══════════╪══════════╪════════════════╪════════════════╡
+    │ 1    ┆ Philippe Veilleux   ┆ VdO       ┆ LW       ┆ 42             ┆ Points         │
+    │ 2    ┆ Egor Shilov         ┆ Vic       ┆ C        ┆ 32             ┆ Points         │
+    │ 3    ┆ Thomas Desruisseaux ┆ Vic       ┆ C        ┆ 32             ┆ Points         │
+    │ 4    ┆ Alexey Vlasov       ┆ Vic       ┆ RW       ┆ 30             ┆ Points         │
+    │ 5    ┆ Chad Lygitsakos     ┆ Sha       ┆ C        ┆ 29             ┆ Points         │
+    │ 1    ┆ Philippe Veilleux   ┆ VdO       ┆ LW       ┆ 19             ┆ Goals          │
+    │ 2    ┆ Ilya Kuzminykh      ┆ She       ┆ C        ┆ 16             ┆ Goals          │
+    │ 3    ┆ Alexey Vlasov       ┆ Vic       ┆ RW       ┆ 15             ┆ Goals          │
+    │ 4    ┆ Mathys Dubé         ┆ Rim       ┆ C        ┆ 14             ┆ Goals          │
+    │ 5    ┆ Egor Shilov         ┆ Vic       ┆ C        ┆ 13             ┆ Goals          │
+    └──────┴─────────────────────┴───────────┴──────────┴────────────────┴────────────────┘
 
 
 
@@ -394,11 +394,11 @@ out
     │ ---                   ┆ ---    ┆ ---       ┆ ---           ┆ ---       │
     │ str                   ┆ i64    ┆ str       ┆ str           ┆ i64       │
     ╞═══════════════════════╪════════╪═══════════╪═══════════════╪═══════════╡
-    │ Grand Rapids Griffins ┆ 16     ┆ 37        ┆ 24            ┆ 13        │
-    │ Laval Rocket          ┆ 14     ┆ 35        ┆ 16            ┆ 19        │
-    │ Manitoba Moose        ┆ 14     ┆ 38        ┆ 20            ┆ 18        │
-    │ Toronto Marlies       ┆ 11     ┆ 29        ┆ 27            ┆ 2         │
-    │ Abbotsford Canucks    ┆ 11     ┆ 30        ┆ 25            ┆ 5         │
+    │ Grand Rapids Griffins ┆ 28     ┆ 66        ┆ 38            ┆ 28        │
+    │ Laval Rocket          ┆ 26     ┆ 65        ┆ 36            ┆ 29        │
+    │ Manitoba Moose        ┆ 24     ┆ 63        ┆ 45            ┆ 18        │
+    │ Tucson Roadrunners    ┆ 22     ┆ 47        ┆ 32            ┆ 15        │
+    │ Charlotte Checkers    ┆ 21     ┆ 54        ┆ 51            ┆ 3         │
     └───────────────────────┴────────┴───────────┴───────────────┴───────────┘
 
 
@@ -439,13 +439,13 @@ out
     │ ---                  ┆ ---                ┆ ---          ┆ ---   ┆ ---     ┆ ---    ┆ ---        │
     │ str                  ┆ str                ┆ str          ┆ str   ┆ str     ┆ str    ┆ str        │
     ╞══════════════════════╪════════════════════╪══════════════╪═══════╪═════════╪════════╪════════════╡
-    │ 2026 - 27 Regular    ┆ Red Deer Rebels    ┆ 13           ┆ 11    ┆ 11      ┆ 22     ┆ regular    │
+    │ 2026 - 27 Regular    ┆ Red Deer Rebels    ┆ 21           ┆ 18    ┆ 15      ┆ 33     ┆ regular    │
     │ Season               ┆                    ┆              ┆       ┆         ┆        ┆            │
     │ 2025 - 26 Regular    ┆ Edmonton Oil Kings ┆ 28           ┆ 11    ┆ 5       ┆ 16     ┆ regular    │
     │ Season               ┆                    ┆              ┆       ┆         ┆        ┆            │
     │ 2025 - 26 Regular    ┆ Red Deer Rebels    ┆ 36           ┆ 14    ┆ 16      ┆ 30     ┆ regular    │
     │ Season               ┆                    ┆              ┆       ┆         ┆        ┆            │
-    │ Total                ┆ null               ┆ 77           ┆ 36    ┆ 32      ┆ 68     ┆ regular    │
+    │ Total                ┆ null               ┆ 85           ┆ 43    ┆ 36      ┆ 79     ┆ regular    │
     │ 2026 - 27 Pre-Season ┆ Red Deer Rebels    ┆ 3            ┆ 2     ┆ 2       ┆ 4      ┆ exhibition │
     └──────────────────────┴────────────────────┴──────────────┴───────┴─────────┴────────┴────────────┘
 
@@ -479,24 +479,22 @@ out
     ✅ OHL schedule
 
 
-    ✅ OHL game summary 29126
+    ✅ OHL game summary 29206
 
 
 
 
 
-    shape: (5, 7)
+    shape: (3, 7)
     ┌───────────┬───────┬─────────────────┬─────────────────┬─────────────────┬────────────┬───────────┐
     │ period_id ┆ time  ┆ goal_scorer_tea ┆ goal_scorer_fir ┆ goal_scorer_las ┆ power_play ┆ empty_net │
     │ ---       ┆ ---   ┆ m_code          ┆ st_name         ┆ t_name          ┆ ---        ┆ ---       │
     │ i64       ┆ str   ┆ ---             ┆ ---             ┆ ---             ┆ str        ┆ str       │
     │           ┆       ┆ str             ┆ str             ┆ str             ┆            ┆           │
     ╞═══════════╪═══════╪═════════════════╪═════════════════╪═════════════════╪════════════╪═══════════╡
-    │ 1         ┆ 13:29 ┆ BAR             ┆ William         ┆ Schneid         ┆ 0          ┆ 0         │
-    │ 1         ┆ 15:04 ┆ BAR             ┆ Carter          ┆ Lowe            ┆ 1          ┆ 0         │
-    │ 2         ┆ 8:19  ┆ OS              ┆ Pierce          ┆ Mbuyi           ┆ 1          ┆ 0         │
-    │ 2         ┆ 10:15 ┆ OS              ┆ Lucian          ┆ Bernat          ┆ 1          ┆ 0         │
-    │ 2         ┆ 19:26 ┆ BAR             ┆ Sebastian       ┆ Mogull          ┆ 1          ┆ 0         │
+    │ 2         ┆ 7:37  ┆ SAG             ┆ Jacob           ┆ Cloutier        ┆ 0          ┆ 0         │
+    │ 3         ┆ 18:13 ┆ WSR             ┆ Caden           ┆ Harvey          ┆ 0          ┆ 0         │
+    │ 4         ┆ 4:50  ┆ WSR             ┆ John            ┆ McLaughlin      ┆ 0          ┆ 0         │
     └───────────┴───────┴─────────────────┴─────────────────┴─────────────────┴────────────┴───────────┘
 
 
@@ -519,15 +517,15 @@ out
 
 
     shape: (3, 4)
-    ┌────────────┬──────────────┬───────────────┬──────┐
-    │ first_name ┆ last_name    ┆ jersey_number ┆ home │
-    │ ---        ┆ ---          ┆ ---           ┆ ---  │
-    │ str        ┆ str          ┆ str           ┆ i64  │
-    ╞════════════╪══════════════╪═══════════════╪══════╡
-    │ Lucian     ┆ Bernat       ┆ 90            ┆ 1    │
-    │ Pierce     ┆ Mbuyi        ┆ 21            ┆ 1    │
-    │ Maxim      ┆ Shirochenkov ┆ 34            ┆ 0    │
-    └────────────┴──────────────┴───────────────┴──────┘
+    ┌────────────┬────────────┬───────────────┬──────┐
+    │ first_name ┆ last_name  ┆ jersey_number ┆ home │
+    │ ---        ┆ ---        ┆ ---           ┆ ---  │
+    │ str        ┆ str        ┆ str           ┆ i64  │
+    ╞════════════╪════════════╪═══════════════╪══════╡
+    │ John       ┆ McLaughlin ┆ 17            ┆ 1    │
+    │ Caden      ┆ Harvey     ┆ 11            ┆ 1    │
+    │ Stepan     ┆ Shurygin   ┆ 63            ┆ 0    │
+    └────────────┴────────────┴───────────────┴──────┘
 
 
 
@@ -553,24 +551,29 @@ else:
 out
 ```
 
-    ✅ AHL pbp 1029204
+    ✅ AHL pbp 1029328
 
 
 
 
 
-    shape: (6, 5)
+    shape: (14, 5)
     ┌────────────────┬───────┬─────────┬───────────────────┬──────────────────┐
     │ period_of_game ┆ clock ┆ team_id ┆ player_name_first ┆ player_name_last │
     │ ---            ┆ ---   ┆ ---     ┆ ---               ┆ ---              │
     │ str            ┆ str   ┆ i64     ┆ str               ┆ str              │
     ╞════════════════╪═══════╪═════════╪═══════════════════╪══════════════════╡
-    │ 2              ┆ 7:23  ┆ 372     ┆ Jiří              ┆ Felcman          │
-    │ 2              ┆ 7:23  ┆ 372     ┆ Jiří              ┆ Felcman          │
-    │ 2              ┆ 5:02  ┆ 372     ┆ Gavin             ┆ Hayes            │
-    │ 2              ┆ 5:02  ┆ 372     ┆ Gavin             ┆ Hayes            │
-    │ 3              ┆ 16:52 ┆ 372     ┆ Nick              ┆ Lardis           │
-    │ 3              ┆ 16:52 ┆ 372     ┆ Nick              ┆ Lardis           │
+    │ 2              ┆ 14:15 ┆ 313     ┆ Vincent           ┆ Sevigny          │
+    │ 2              ┆ 14:15 ┆ 313     ┆ Vincent           ┆ Sevigny          │
+    │ 2              ┆ 6:57  ┆ 316     ┆ Atley             ┆ Calvert          │
+    │ 2              ┆ 6:57  ┆ 316     ┆ Atley             ┆ Calvert          │
+    │ 2              ┆ 1:26  ┆ 316     ┆ Oliver            ┆ Okuliar          │
+    │ …              ┆ …     ┆ …       ┆ …                 ┆ …                │
+    │ 3              ┆ 10:02 ┆ 316     ┆ Harrison          ┆ Brunicke         │
+    │ 3              ┆ 3:37  ┆ 313     ┆ Nolan             ┆ Foote            │
+    │ 3              ┆ 3:37  ┆ 313     ┆ Nolan             ┆ Foote            │
+    │ 3              ┆ 1:18  ┆ 316     ┆ Harrison          ┆ Brunicke         │
+    │ 3              ┆ 1:18  ┆ 316     ┆ Harrison          ┆ Brunicke         │
     └────────────────┴───────┴─────────┴───────────────────┴──────────────────┘
 
 
