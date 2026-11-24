@@ -46,17 +46,18 @@ same shape, so the SLB recipes below work for every one of them.
 ## 🔌 Setup
 
 ```sh
-pip install "sportsdataverse[sdvplot]"
+pip install --pre "sportsdataverse[sdvplot,sportypy]"
 ```
 
-The `sdvplot` extra brings in sdvplot and sportypy for the court drawing.
+The `sdvplot` extra brings in sdvplot and matplotlib; the `sportypy` extra (GPL-3.0, kept separate on
+purpose) draws the court. `--pre` is needed while 0.2.0 is in beta.
 
 
 ```python
 import matplotlib.pyplot as plt
 import polars as pl
 
-from sportsdataverse import euroleague as el
+from sportsdataverse.basketball import euroleague as el
 from sportsdataverse.basketball import acb, genius, nbl_au
 
 pl.Config.set_tbl_rows(10)
@@ -106,8 +107,6 @@ print("season:", season_code, "| games:", None if games is None else games.shape
 ```
 
     ✅ EuroLeague seasons
-
-
     ✅ games E2026
     season: E2026 | games: (380, 94)
 
@@ -124,18 +123,19 @@ cols = ["game_code", "round", "utc_date", "local_club_name", "road_club_name"]
 
 
     shape: (5, 5)
-    ┌───────────┬───────┬──────────────────────┬──────────────────────┬────────────────────────────┐
-    │ game_code ┆ round ┆ utc_date             ┆ local_club_name      ┆ road_club_name             │
-    │ ---       ┆ ---   ┆ ---                  ┆ ---                  ┆ ---                        │
-    │ str       ┆ i64   ┆ str                  ┆ str                  ┆ str                        │
-    ╞═══════════╪═══════╪══════════════════════╪══════════════════════╪════════════════════════════╡
-    │ 63        ┆ 7     ┆ 2026-10-22T18:30:00Z ┆ Armani Olimpia Milan ┆ FC Barcelona               │
-    │ 66        ┆ 7     ┆ 2026-10-22T18:45:00Z ┆ Partizan Mozzart Bet ┆ Crvena Zvezda Meridianbet  │
-    │           ┆       ┆                      ┆ Belgrade             ┆ Belg…                      │
-    │ 68        ┆ 7     ┆ 2026-10-23T17:00:00Z ┆ Zalgiris Kaunas      ┆ LDLC ASVEL Villeurbanne    │
-    │ 70        ┆ 7     ┆ 2026-10-23T18:15:00Z ┆ Olympiacos Piraeus   ┆ Fenerbahce Tarfin Istanbul │
-    │ 69        ┆ 7     ┆ 2026-10-23T18:45:00Z ┆ Paris Basketball     ┆ Valencia Basket            │
-    └───────────┴───────┴──────────────────────┴──────────────────────┴────────────────────────────┘
+    ┌───────────┬───────┬──────────────────────┬───────────────────────┬───────────────────────────┐
+    │ game_code ┆ round ┆ utc_date             ┆ local_club_name       ┆ road_club_name            │
+    │ ---       ┆ ---   ┆ ---                  ┆ ---                   ┆ ---                       │
+    │ str       ┆ i64   ┆ str                  ┆ str                   ┆ str                       │
+    ╞═══════════╪═══════╪══════════════════════╪═══════════════════════╪═══════════════════════════╡
+    │ 125       ┆ 13    ┆ 2026-11-19T20:00:00Z ┆ Valencia Basket       ┆ Virtus Bologna            │
+    │ 127       ┆ 13    ┆ 2026-11-20T17:30:00Z ┆ Anadolu Efes Istanbul ┆ LDLC ASVEL Villeurbanne   │
+    │ 130       ┆ 13    ┆ 2026-11-20T19:15:00Z ┆ Olympiacos Piraeus    ┆ Real Madrid               │
+    │ 128       ┆ 13    ┆ 2026-11-20T19:30:00Z ┆ FC Barcelona          ┆ Crvena Zvezda Meridianbet │
+    │           ┆       ┆                      ┆                       ┆ Belg…                     │
+    │ 129       ┆ 13    ┆ 2026-11-20T19:45:00Z ┆ Partizan Mozzart Bet  ┆ Besiktas Fuzul Istanbul   │
+    │           ┆       ┆                      ┆ Belgrade              ┆                           │
+    └───────────┴───────┴──────────────────────┴───────────────────────┴───────────────────────────┘
 
 
 
@@ -153,7 +153,7 @@ cols = ["position", "club_name", "games_played", "games_won", "games_lost", "poi
  if stand is not None and stand.height else "standings unavailable")
 ```
 
-    ✅ standings round 7
+    ✅ standings round 13
 
 
 
@@ -165,19 +165,19 @@ cols = ["position", "club_name", "games_played", "games_won", "games_lost", "poi
     │ ---      ┆ ---                       ┆ ---          ┆ ---       ┆ ---        ┆ ---               │
     │ i64      ┆ str                       ┆ i64          ┆ i64       ┆ i64        ┆ str               │
     ╞══════════╪═══════════════════════════╪══════════════╪═══════════╪════════════╪═══════════════════╡
-    │ 1        ┆ Panathinaikos AKTOR       ┆ 7            ┆ 6         ┆ 1          ┆ +96               │
+    │ 1        ┆ Valencia Basket           ┆ 13           ┆ 10        ┆ 3          ┆ +104              │
+    │ 2        ┆ Olympiacos Piraeus        ┆ 13           ┆ 10        ┆ 3          ┆ +91               │
+    │ 3        ┆ Panathinaikos AKTOR       ┆ 13           ┆ 9         ┆ 4          ┆ +94               │
     │          ┆ Athens                    ┆              ┆           ┆            ┆                   │
-    │ 2        ┆ Fenerbahce Tarfin         ┆ 7            ┆ 6         ┆ 1          ┆ +57               │
+    │ 4        ┆ Dubai Basketball          ┆ 13           ┆ 9         ┆ 4          ┆ +21               │
+    │ 5        ┆ Fenerbahce Tarfin         ┆ 13           ┆ 8         ┆ 5          ┆ +75               │
     │          ┆ Istanbul                  ┆              ┆           ┆            ┆                   │
-    │ 3        ┆ Valencia Basket           ┆ 7            ┆ 5         ┆ 2          ┆ +57               │
-    │ 4        ┆ Olympiacos Piraeus        ┆ 7            ┆ 5         ┆ 2          ┆ +37               │
-    │ 5        ┆ Hapoel IBI Tel Aviv       ┆ 7            ┆ 5         ┆ 2          ┆ +29               │
-    │ 6        ┆ Dubai Basketball          ┆ 7            ┆ 5         ┆ 2          ┆ +13               │
-    │ 7        ┆ Real Madrid               ┆ 7            ┆ 4         ┆ 3          ┆ +37               │
-    │ 8        ┆ Crvena Zvezda Meridianbet ┆ 7            ┆ 4         ┆ 3          ┆ +28               │
+    │ 6        ┆ Crvena Zvezda Meridianbet ┆ 13           ┆ 8         ┆ 5          ┆ +50               │
     │          ┆ Belg…                     ┆              ┆           ┆            ┆                   │
-    │ 9        ┆ FC Barcelona              ┆ 7            ┆ 4         ┆ 3          ┆ +17               │
-    │ 10       ┆ Virtus Bologna            ┆ 7            ┆ 4         ┆ 3          ┆ -2                │
+    │ 7        ┆ FC Barcelona              ┆ 13           ┆ 8         ┆ 5          ┆ +27               │
+    │ 8        ┆ Zalgiris Kaunas           ┆ 13           ┆ 8         ┆ 5          ┆ +21               │
+    │ 9        ┆ Real Madrid               ┆ 13           ┆ 7         ┆ 6          ┆ +75               │
+    │ 10       ┆ Hapoel IBI Tel Aviv       ┆ 13           ┆ 7         ┆ 6          ┆ +37               │
     └──────────┴───────────────────────────┴──────────────┴───────────┴────────────┴───────────────────┘
 
 
@@ -211,7 +211,7 @@ else:
     print("no shot data for this game")
 ```
 
-    ✅ shots game 69
+    ✅ shots game 129
 
 
 
@@ -268,22 +268,22 @@ cols = ["match_id", "date_time", "home_team_name", "home_score", "away_team_name
 
 
     shape: (5, 6)
-    ┌──────────┬───────────────┬──────────────────────┬────────────┬──────────────────┬────────────┐
-    │ match_id ┆ date_time     ┆ home_team_name       ┆ home_score ┆ away_team_name   ┆ away_score │
-    │ ---      ┆ ---           ┆ ---                  ┆ ---        ┆ ---              ┆ ---        │
-    │ i64      ┆ str           ┆ str                  ┆ i64        ┆ str              ┆ i64        │
-    ╞══════════╪═══════════════╪══════════════════════╪════════════╪══════════════════╪════════════╡
-    │ 2882466  ┆ Oct 23, 2026, ┆ Leicester Riders     ┆ 87         ┆ Manchester       ┆ 89         │
-    │          ┆ 7:30 PM       ┆                      ┆            ┆ Basketball       ┆            │
-    │ 2882469  ┆ Oct 23, 2026, ┆ Newcastle Eagles     ┆ 82         ┆ Surrey 89ers     ┆ 55         │
-    │          ┆ 7:30 PM       ┆                      ┆            ┆                  ┆            │
-    │ 2882472  ┆ Oct 24, 2026, ┆ London Lions         ┆ 82         ┆ Bristol Flyers   ┆ 76         │
-    │          ┆ 6:00 PM       ┆                      ┆            ┆                  ┆            │
-    │ 2882446  ┆ Oct 25, 2026, ┆ Liverpool Basketball ┆ 77         ┆ Newcastle Eagles ┆ 74         │
-    │          ┆ 4:00 PM       ┆                      ┆            ┆                  ┆            │
-    │ 2882449  ┆ Oct 25, 2026, ┆ Cheshire Phoenix     ┆ 91         ┆ Surrey 89ers     ┆ 107        │
-    │          ┆ 5:30 PM       ┆                      ┆            ┆                  ┆            │
-    └──────────┴───────────────┴──────────────────────┴────────────┴──────────────────┴────────────┘
+    ┌──────────┬───────────────┬──────────────────────┬────────────┬──────────────────────┬────────────┐
+    │ match_id ┆ date_time     ┆ home_team_name       ┆ home_score ┆ away_team_name       ┆ away_score │
+    │ ---      ┆ ---           ┆ ---                  ┆ ---        ┆ ---                  ┆ ---        │
+    │ i64      ┆ str           ┆ str                  ┆ i64        ┆ str                  ┆ i64        │
+    ╞══════════╪═══════════════╪══════════════════════╪════════════╪══════════════════════╪════════════╡
+    │ 2882484  ┆ Nov 20, 2026, ┆ Bristol Flyers       ┆ 83         ┆ Cheshire Phoenix     ┆ 100        │
+    │          ┆ 7:30 PM       ┆                      ┆            ┆                      ┆            │
+    │ 2882485  ┆ Nov 20, 2026, ┆ Newcastle Eagles     ┆ 82         ┆ Leicester Riders     ┆ 74         │
+    │          ┆ 7:30 PM       ┆                      ┆            ┆                      ┆            │
+    │ 2882486  ┆ Nov 22, 2026, ┆ Manchester           ┆ 81         ┆ London Lions         ┆ 96         │
+    │          ┆ 4:00 PM       ┆ Basketball           ┆            ┆                      ┆            │
+    │ 2882487  ┆ Nov 22, 2026, ┆ Liverpool Basketball ┆ 86         ┆ Leicester Riders     ┆ 77         │
+    │          ┆ 4:00 PM       ┆                      ┆            ┆                      ┆            │
+    │ 2882488  ┆ Nov 22, 2026, ┆ Cheshire Phoenix     ┆ 108        ┆ Caledonia Gladiators ┆ 92         │
+    │          ┆ 5:30 PM       ┆                      ┆            ┆                      ┆            │
+    └──────────┴───────────────┴──────────────────────┴────────────┴──────────────────────┴────────────┘
 
 
 
@@ -302,28 +302,28 @@ cols = ["name", "minutes", "points", "rebounds_total", "assists", "field_goals_m
  if box is not None and box.height and "points" in box.columns else "box score unavailable")
 ```
 
-    ✅ SLB box 2882449
+    ✅ SLB box 2882488
 
 
 
 
 
     shape: (8, 7)
-    ┌────────────────┬─────────┬────────┬────────────────┬─────────┬─────────────────┬─────────────────┐
-    │ name           ┆ minutes ┆ points ┆ rebounds_total ┆ assists ┆ field_goals_mad ┆ field_goals_att │
-    │ ---            ┆ ---     ┆ ---    ┆ ---            ┆ ---     ┆ e               ┆ empted          │
-    │ str            ┆ str     ┆ i64    ┆ i64            ┆ i64     ┆ ---             ┆ ---             │
-    │                ┆         ┆        ┆                ┆         ┆ i64             ┆ i64             │
-    ╞════════════════╪═════════╪════════╪════════════════╪═════════╪═════════════════╪═════════════════╡
-    │ A. Patterson   ┆ 18:55   ┆ 20     ┆ 3              ┆ 1       ┆ 5               ┆ 10              │
-    │ E. Reynolds Ii ┆ 29:22   ┆ 18     ┆ 3              ┆ 5       ┆ 5               ┆ 13              │
-    │ J. Graham      ┆ 26:37   ┆ 17     ┆ 4              ┆ 3       ┆ 7               ┆ 11              │
-    │ C. Mcgill      ┆ 31:13   ┆ 16     ┆ 3              ┆ 2       ┆ 6               ┆ 9               │
-    │ J. Searles     ┆ 25:48   ┆ 15     ┆ 4              ┆ 4       ┆ 5               ┆ 9               │
-    │ J. Hinds       ┆ 23:10   ┆ 14     ┆ 2              ┆ 0       ┆ 6               ┆ 11              │
-    │ R. Cisarik     ┆ 30:33   ┆ 13     ┆ 4              ┆ 2       ┆ 5               ┆ 7               │
-    │ R. Stewart     ┆ 11:45   ┆ 11     ┆ 2              ┆ 0       ┆ 4               ┆ 5               │
-    └────────────────┴─────────┴────────┴────────────────┴─────────┴─────────────────┴─────────────────┘
+    ┌─────────────┬─────────┬────────┬────────────────┬─────────┬──────────────────┬───────────────────┐
+    │ name        ┆ minutes ┆ points ┆ rebounds_total ┆ assists ┆ field_goals_made ┆ field_goals_attem │
+    │ ---         ┆ ---     ┆ ---    ┆ ---            ┆ ---     ┆ ---              ┆ pted              │
+    │ str         ┆ str     ┆ i64    ┆ i64            ┆ i64     ┆ i64              ┆ ---               │
+    │             ┆         ┆        ┆                ┆         ┆                  ┆ i64               │
+    ╞═════════════╪═════════╪════════╪════════════════╪═════════╪══════════════════╪═══════════════════╡
+    │ S. White    ┆ 26:09   ┆ 37     ┆ 13             ┆ 2       ┆ 12               ┆ 22                │
+    │ I. Small    ┆ 35:35   ┆ 24     ┆ 11             ┆ 2       ┆ 11               ┆ 17                │
+    │ A. Dawes    ┆ 31:33   ┆ 23     ┆ 3              ┆ 4       ┆ 8                ┆ 14                │
+    │ I. Gray     ┆ 23:36   ┆ 19     ┆ 3              ┆ 4       ┆ 9                ┆ 11                │
+    │ N. Williams ┆ 22:37   ┆ 15     ┆ 1              ┆ 3       ┆ 5                ┆ 10                │
+    │ C. Keeling  ┆ 32:55   ┆ 15     ┆ 7              ┆ 2       ┆ 6                ┆ 16                │
+    │ Z. Gattorna ┆ 25:23   ┆ 13     ┆ 10             ┆ 1       ┆ 4                ┆ 10                │
+    │ R. Cisarik  ┆ 31:40   ┆ 12     ┆ 5              ┆ 1       ┆ 4                ┆ 8                 │
+    └─────────────┴─────────┴────────┴────────────────┴─────────┴──────────────────┴───────────────────┘
 
 
 
@@ -334,7 +334,7 @@ sh = safe(f"SLB shots {mid}", lambda: genius.slb_shots(mid)) if mid else None
  if sh is not None and sh.height else "no shots for this game")
 ```
 
-    ✅ SLB shots 2882449
+    ✅ SLB shots 2882488
 
 
 
@@ -346,10 +346,10 @@ sh = safe(f"SLB shots {mid}", lambda: genius.slb_shots(mid)) if mid else None
     │ ---         ┆ ---    ┆ --- │
     │ str         ┆ i64    ┆ u32 │
     ╞═════════════╪════════╪═════╡
-    │ 2pt         ┆ 0      ┆ 27  │
-    │ 2pt         ┆ 1      ┆ 43  │
-    │ 3pt         ┆ 0      ┆ 42  │
-    │ 3pt         ┆ 1      ┆ 26  │
+    │ 2pt         ┆ 0      ┆ 44  │
+    │ 2pt         ┆ 1      ┆ 51  │
+    │ 3pt         ┆ 1      ┆ 23  │
+    │ 3pt         ┆ 0      ┆ 38  │
     └─────────────┴────────┴─────┘
 
 

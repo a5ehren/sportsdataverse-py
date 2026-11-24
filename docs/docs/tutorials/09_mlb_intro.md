@@ -54,7 +54,7 @@ full reference:
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
 ```
 
 **No API key needed** for any of the premium MLB endpoints — the MLB Stats API
@@ -492,8 +492,8 @@ spcols = ["last_name, first_name", "team", "position", "competitive_runs", "spri
     │ Witt Jr., Bobby       ┆ KC   ┆ SS       ┆ 298              ┆ 30.5         │
     │ Rojas, Johan          ┆ PHI  ┆ CF       ┆ 176              ┆ 30.1         │
     │ De La Cruz, Elly      ┆ CIN  ┆ SS       ┆ 249              ┆ 30.0         │
-    │ Clase, Jonatan        ┆ TOR  ┆ LF       ┆ 20               ┆ 30.0         │
     │ Fitzgerald, Tyler     ┆ SF   ┆ SS       ┆ 99               ┆ 30.0         │
+    │ Clase, Jonatan        ┆ TOR  ┆ LF       ┆ 20               ┆ 30.0         │
     │ Crow-Armstrong, Pete  ┆ CHC  ┆ CF       ┆ 149              ┆ 30.0         │
     │ Scott II, Victor      ┆ STL  ┆ CF       ┆ 62               ┆ 30.0         │
     │ Mateo, Jorge          ┆ BAL  ┆ 2B       ┆ 77               ┆ 29.9         │
@@ -620,8 +620,8 @@ out
     │ Flyout           ┆ 7     │
     │ Walk             ┆ 6     │
     │ Lineout          ┆ 4     │
-    │ Home Run         ┆ 3     │
     │ Single           ┆ 3     │
+    │ Home Run         ┆ 3     │
     │ Double           ┆ 2     │
     │ Grounded Into DP ┆ 1     │
     └──────────────────┴───────┘
@@ -770,7 +770,7 @@ out
     │ Kurtz, Nick        ┆ 668                ┆ 78.191794     ┆ 0.803892        ┆ 7.759191     │
     │ Smith, Cam         ┆ 1021               ┆ 77.932441     ┆ 0.779628        ┆ 7.692896     │
     │ Cruz, Oneil        ┆ 655                ┆ 77.703353     ┆ 0.726718        ┆ 7.531575     │
-    │ Mitchell, Garrett  ┆ 828                ┆ 77.62993      ┆ 0.805556        ┆ 7.250589     │
+    │ Mitchell, Garrett  ┆ 827                ┆ 77.638018     ┆ 0.80653         ┆ 7.252277     │
     │ Adell, Jo          ┆ 1221               ┆ 77.42451      ┆ 0.725635        ┆ 7.714183     │
     │ Schwarber, Kyle    ┆ 1173               ┆ 77.116135     ┆ 0.745951        ┆ 7.499687     │
     │ Caglianone, Jac    ┆ 968                ┆ 77.004386     ┆ 0.728306        ┆ 7.859147     │
