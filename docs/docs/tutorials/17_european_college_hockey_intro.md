@@ -43,8 +43,11 @@ its END year (2026 is 2025-26) and space requests at least a second apart, so be
 ## 🔌 Setup
 
 ```sh
-pip install "sportsdataverse[sdvplot]"
+pip install --pre "sportsdataverse[sdvplot]"
 ```
+
+The `sdvplot` extra brings in sdvplot and matplotlib for the charts. `--pre` is needed while 0.2.0 is
+in beta.
 
 
 ```python
@@ -87,31 +90,7 @@ cols = ["start_date_time", "home_team_code", "home_team_score", "away_team_code"
 shl_sched.select([c for c in cols if c in shl_sched.columns]).tail(5) if shl_sched is not None else None
 ```
 
-    ✅ SHL schedule 2026
-
-
-
-
-
-    shape: (5, 6)
-    ┌─────────────────┬────────────────┬─────────────────┬────────────────┬────────────────┬───────────┐
-    │ start_date_time ┆ home_team_code ┆ home_team_score ┆ away_team_code ┆ away_team_scor ┆ state     │
-    │ ---             ┆ ---            ┆ ---             ┆ ---            ┆ e              ┆ ---       │
-    │ str             ┆ str            ┆ i64             ┆ str            ┆ ---            ┆ str       │
-    │                 ┆                ┆                 ┆                ┆ i64            ┆           │
-    ╞═════════════════╪════════════════╪═════════════════╪════════════════╪════════════════╪═══════════╡
-    │ 2026-03-14      ┆ TIK            ┆ 1               ┆ VLH            ┆ 3              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    │ 2026-03-14      ┆ LHC            ┆ 3               ┆ OHK            ┆ 2              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    │ 2026-03-14      ┆ DIF            ┆ 2               ┆ SAIK           ┆ 3              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    │ 2026-03-14      ┆ BIF            ┆ 3               ┆ HV71           ┆ 4              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    │ 2026-03-14      ┆ FHC            ┆ 4               ┆ MIF            ┆ 1              ┆ post-game │
-    │ 15:15:00        ┆                ┆                 ┆                ┆                ┆           │
-    └─────────────────┴────────────────┴─────────────────┴────────────────┴────────────────┴───────────┘
-
+    ⏭️  SHL schedule 2026: AssetFetchError: www.shl.se/api/statistics-v2/layout-info: no ssgt directory in the body
 
 
 
@@ -123,26 +102,10 @@ shl_pbp = safe("SHL pbp", lambda: shl.shl_pbp(guid)) if guid else None
  else "no SHL play-by-play")
 ```
 
-    ✅ SHL pbp
 
 
 
-
-
-    shape: (7, 2)
-    ┌────────────┬───────┐
-    │ type       ┆ count │
-    │ ---        ┆ ---   │
-    │ str        ┆ u32   │
-    ╞════════════╪═══════╡
-    │ shot       ┆ 84    │
-    │ goalkeeper ┆ 6     │
-    │ goal       ┆ 5     │
-    │ insight    ┆ 4     │
-    │ penalty    ┆ 3     │
-    │ period     ┆ 3     │
-    │ timeout    ┆ 1     │
-    └────────────┴───────┘
+    'no SHL play-by-play'
 
 
 
@@ -173,14 +136,14 @@ cols = ["tournament", "ranking", "team_name", "games", "wins", "losses", "points
     │ ---        ┆ ---     ┆ ---       ┆ ---   ┆   ┆ ---    ┆ ---    ┆ ---   ┆ ---           │
     │ str        ┆ i64     ┆ str       ┆ i64   ┆   ┆ i64    ┆ i64    ┆ i64   ┆ i64           │
     ╞════════════╪═════════╪═══════════╪═══════╪═══╪════════╪════════╪═══════╪═══════════════╡
-    │ runkosarja ┆ 1       ┆ Lukko     ┆ 17    ┆ … ┆ 4      ┆ 35     ┆ 46    ┆ 32            │
-    │ runkosarja ┆ 2       ┆ SaiPa     ┆ 16    ┆ … ┆ 3      ┆ 34     ┆ 49    ┆ 27            │
-    │ runkosarja ┆ 3       ┆ Ilves     ┆ 17    ┆ … ┆ 5      ┆ 32     ┆ 48    ┆ 36            │
-    │ runkosarja ┆ 4       ┆ Jukurit   ┆ 18    ┆ … ┆ 6      ┆ 32     ┆ 44    ┆ 35            │
-    │ runkosarja ┆ 5       ┆ JYP       ┆ 14    ┆ … ┆ 3      ┆ 30     ┆ 44    ┆ 35            │
-    │ runkosarja ┆ 6       ┆ Kärpät    ┆ 18    ┆ … ┆ 4      ┆ 30     ┆ 51    ┆ 50            │
-    │ runkosarja ┆ 7       ┆ Ässät     ┆ 17    ┆ … ┆ 6      ┆ 28     ┆ 38    ┆ 40            │
-    │ runkosarja ┆ 8       ┆ TPS       ┆ 17    ┆ … ┆ 7      ┆ 27     ┆ 47    ┆ 42            │
+    │ runkosarja ┆ 1       ┆ Lukko     ┆ 23    ┆ … ┆ 4      ┆ 52     ┆ 73    ┆ 45            │
+    │ runkosarja ┆ 2       ┆ Ilves     ┆ 25    ┆ … ┆ 7      ┆ 49     ┆ 73    ┆ 49            │
+    │ runkosarja ┆ 3       ┆ JYP       ┆ 22    ┆ … ┆ 4      ┆ 47     ┆ 76    ┆ 57            │
+    │ runkosarja ┆ 4       ┆ Jukurit   ┆ 25    ┆ … ┆ 8      ┆ 43     ┆ 63    ┆ 52            │
+    │ runkosarja ┆ 5       ┆ Ässät     ┆ 25    ┆ … ┆ 10     ┆ 40     ┆ 58    ┆ 64            │
+    │ runkosarja ┆ 6       ┆ SaiPa     ┆ 21    ┆ … ┆ 6      ┆ 40     ┆ 64    ┆ 46            │
+    │ runkosarja ┆ 7       ┆ Kärpät    ┆ 25    ┆ … ┆ 7      ┆ 40     ┆ 72    ┆ 73            │
+    │ runkosarja ┆ 8       ┆ TPS       ┆ 24    ┆ … ┆ 9      ┆ 39     ┆ 68    ┆ 67            │
     └────────────┴─────────┴───────────┴───────┴───┴────────┴────────┴───────┴───────────────┘
 
 
@@ -202,8 +165,8 @@ out
     ✅ Liiga games
 
 
-    ✅ Liiga shotmap 2701415
-    Sport 1 - 3 SaiPa
+    ✅ Liiga shotmap 2701474
+    Lukko 4 - 3 HPK
 
 
 
@@ -215,10 +178,10 @@ out
     │ ---            ┆ --- │
     │ str            ┆ u32 │
     ╞════════════════╪═════╡
-    │ PLAYER_BLOCKED ┆ 25  │
-    │ MISSED         ┆ 27  │
-    │ GOAL           ┆ 4   │
-    │ GOALIE_BLOCKED ┆ 41  │
+    │ PLAYER_BLOCKED ┆ 20  │
+    │ GOAL           ┆ 7   │
+    │ GOALIE_BLOCKED ┆ 43  │
+    │ MISSED         ┆ 23  │
     └────────────────┴─────┘
 
 
@@ -327,14 +290,14 @@ cols = ["table", "rank", "name", "gp", "w", "l", "pts", "goals_for", "goals_agai
     │ ---    ┆ ---  ┆ ---          ┆ --- ┆   ┆ --- ┆ --- ┆ ---       ┆ ---           │
     │ str    ┆ i64  ┆ str          ┆ i64 ┆   ┆ i64 ┆ i64 ┆ i64       ┆ i64           │
     ╞════════╪══════╪══════════════╪═════╪═══╪═════╪═════╪═══════════╪═══════════════╡
-    │ league ┆ 1    ┆ Металлург Мг ┆ 20  ┆ … ┆ 3   ┆ 32  ┆ 67        ┆ 39            │
-    │ league ┆ 2    ┆ Локомотив    ┆ 19  ┆ … ┆ 5   ┆ 28  ┆ 49        ┆ 33            │
-    │ league ┆ 3    ┆ ЦСКА         ┆ 19  ┆ … ┆ 5   ┆ 28  ┆ 58        ┆ 36            │
-    │ league ┆ 4    ┆ Драконы      ┆ 18  ┆ … ┆ 4   ┆ 26  ┆ 56        ┆ 44            │
-    │ league ┆ 5    ┆ Спартак      ┆ 19  ┆ … ┆ 5   ┆ 25  ┆ 51        ┆ 35            │
-    │ league ┆ 6    ┆ Нефтехимик   ┆ 19  ┆ … ┆ 6   ┆ 24  ┆ 55        ┆ 46            │
-    │ league ┆ 7    ┆ Северсталь   ┆ 20  ┆ … ┆ 7   ┆ 24  ┆ 46        ┆ 43            │
-    │ league ┆ 8    ┆ Торпедо      ┆ 18  ┆ … ┆ 5   ┆ 24  ┆ 49        ┆ 36            │
+    │ league ┆ 1    ┆ ЦСКА         ┆ 29  ┆ … ┆ 6   ┆ 44  ┆ 94        ┆ 53            │
+    │ league ┆ 2    ┆ Металлург Мг ┆ 29  ┆ … ┆ 6   ┆ 43  ┆ 107       ┆ 73            │
+    │ league ┆ 3    ┆ Локомотив    ┆ 28  ┆ … ┆ 7   ┆ 41  ┆ 77        ┆ 44            │
+    │ league ┆ 4    ┆ Северсталь   ┆ 29  ┆ … ┆ 9   ┆ 38  ┆ 74        ┆ 66            │
+    │ league ┆ 5    ┆ Авангард     ┆ 28  ┆ … ┆ 9   ┆ 36  ┆ 64        ┆ 62            │
+    │ league ┆ 6    ┆ Спартак      ┆ 30  ┆ … ┆ 10  ┆ 35  ┆ 80        ┆ 70            │
+    │ league ┆ 7    ┆ Торпедо      ┆ 28  ┆ … ┆ 9   ┆ 35  ┆ 72        ┆ 64            │
+    │ league ┆ 8    ┆ Амур         ┆ 28  ┆ … ┆ 10  ┆ 34  ┆ 59        ┆ 47            │
     └────────┴──────┴──────────────┴─────┴───┴─────┴─────┴───────────┴───────────────┘
 
 
@@ -385,13 +348,14 @@ wsb.select([c for c in cols if c in wsb.columns]) if wsb is not None and wsb.hei
 
 
 
-    shape: (1, 5)
+    shape: (2, 5)
     ┌───────────────────┬────────────┬─────────────────────────────────┬────────────┬────────────┐
     │ date              ┆ short_name ┆ status_type_detail              ┆ home_score ┆ away_score │
     │ ---               ┆ ---        ┆ ---                             ┆ ---        ┆ ---        │
     │ str               ┆ str        ┆ str                             ┆ str        ┆ str        │
     ╞═══════════════════╪════════════╪═════════════════════════════════╪════════════╪════════════╡
-    │ 2026-10-26T15:00Z ┆ MNST @ BC  ┆ Mon, October 26th at 11:00 AM … ┆ 0          ┆ 0          │
+    │ 2026-11-24T15:30Z ┆ DEL @ PRIN ┆ Tue, November 24th at 10:30 AM… ┆ 0          ┆ 0          │
+    │ 2026-11-24T23:00Z ┆ CLAR @ SYR ┆ Tue, November 24th at 6:00 PM … ┆ 0          ┆ 0          │
     └───────────────────┴────────────┴─────────────────────────────────┴────────────┴────────────┘
 
 

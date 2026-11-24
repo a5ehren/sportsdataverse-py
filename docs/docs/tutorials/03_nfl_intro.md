@@ -62,7 +62,8 @@ full reference.
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
+pip install --pre "sportsdataverse[sdvplot]"   # optional: the win-probability chart
 ```
 
 **No API key needed** — the native `api.nfl.com` wrappers mint a fresh
@@ -522,31 +523,73 @@ pbp.shape
     │ ---            ┆ --- ┆ ---  ┆ ---     ┆   ┆ ---       ┆ ---          ┆ ---       ┆ ---           │
     │ str            ┆ f64 ┆ f64  ┆ f64     ┆   ┆ str       ┆ f64          ┆ f64       ┆ str           │
     ╞════════════════╪═════╪══════╪═════════╪═══╪═══════════╪══════════════╪═══════════╪═══════════════╡
-    │ 2024_01_ARI_BU ┆ 1.0 ┆ null ┆ 0.0     ┆ … ┆ kickoff   ┆ 0.0          ┆ 0.257819  ┆ 2-T.Bass      │
+    │ 2024_01_ARI_BU ┆ 1.0 ┆ null ┆ 0.0     ┆ … ┆ kickoff   ┆ 0.0          ┆ -0.0      ┆ 2-T.Bass      │
     │ F              ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ kicks 65      │
     │                ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ yards from B… │
-    │ 2024_01_ARI_BU ┆ 1.0 ┆ 1.0  ┆ 10.0    ┆ … ┆ run       ┆ 3.0          ┆ -0.200602 ┆ (15:00)       │
+    │ 2024_01_ARI_BU ┆ 1.0 ┆ 1.0  ┆ 10.0    ┆ … ┆ run       ┆ 3.0          ┆ -0.175637 ┆ (15:00)       │
     │ F              ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ 6-J.Conner up │
     │                ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ the midd…     │
-    │ 2024_01_ARI_BU ┆ 1.0 ┆ 2.0  ┆ 7.0     ┆ … ┆ pass      ┆ 22.0         ┆ 2.028874  ┆ (14:27)       │
+    │ 2024_01_ARI_BU ┆ 1.0 ┆ 2.0  ┆ 7.0     ┆ … ┆ pass      ┆ 22.0         ┆ 1.576244  ┆ (14:27)       │
     │ F              ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ 1-K.Murray    │
     │                ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ pass short …  │
-    │ 2024_01_ARI_BU ┆ 1.0 ┆ 1.0  ┆ 10.0    ┆ … ┆ pass      ┆ 9.0          ┆ 0.754242  ┆ (13:43)       │
+    │ 2024_01_ARI_BU ┆ 1.0 ┆ 1.0  ┆ 10.0    ┆ … ┆ pass      ┆ 9.0          ┆ 0.571669  ┆ (13:43)       │
     │ F              ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ (Shotgun)     │
     │                ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ 1-K.Murray p… │
-    │ 2024_01_ARI_BU ┆ 1.0 ┆ 2.0  ┆ 1.0     ┆ … ┆ run       ┆ 2.0          ┆ -0.029602 ┆ (13:02)       │
+    │ 2024_01_ARI_BU ┆ 1.0 ┆ 2.0  ┆ 1.0     ┆ … ┆ run       ┆ 2.0          ┆ -0.027757 ┆ (13:02)       │
     │ F              ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ 6-J.Conner up │
     │                ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ the midd…     │
-    │ 2024_01_ARI_BU ┆ 1.0 ┆ 1.0  ┆ 10.0    ┆ … ┆ run       ┆ 2.0          ┆ -0.247749 ┆ (12:26)       │
+    │ 2024_01_ARI_BU ┆ 1.0 ┆ 1.0  ┆ 10.0    ┆ … ┆ run       ┆ 2.0          ┆ -0.231332 ┆ (12:26)       │
     │ F              ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ (Shotgun)     │
     │                ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ 6-J.Conner l… │
-    │ 2024_01_ARI_BU ┆ 1.0 ┆ 2.0  ┆ 8.0     ┆ … ┆ run       ┆ 2.0          ┆ -0.530139 ┆ (11:51)       │
+    │ 2024_01_ARI_BU ┆ 1.0 ┆ 2.0  ┆ 8.0     ┆ … ┆ run       ┆ 2.0          ┆ -0.471837 ┆ (11:51)       │
     │ F              ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ 6-J.Conner    │
     │                ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ left end to…  │
-    │ 2024_01_ARI_BU ┆ 1.0 ┆ 3.0  ┆ 6.0     ┆ … ┆ pass      ┆ 8.0          ┆ 1.6808    ┆ (11:08)       │
+    │ 2024_01_ARI_BU ┆ 1.0 ┆ 3.0  ┆ 6.0     ┆ … ┆ pass      ┆ 8.0          ┆ 1.440193  ┆ (11:08)       │
     │ F              ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ (Shotgun)     │
     │                ┆     ┆      ┆         ┆   ┆           ┆              ┆           ┆ 1-K.Murray p… │
     └────────────────┴─────┴──────┴─────────┴───┴───────────┴──────────────┴───────────┴───────────────┘
+
+
+
+### 📈 Chart: the last game of the season in team colours
+
+nflverse's `home_wp` is the home side's win probability on each play. [sdvplot](https://sdvplot.sportsdataverse.org/)'s
+`team_colors` gives each club its colour, so the area above 0.5 belongs to the home team.
+
+
+```python
+# Needs the plotting extra: pip install --pre "sportsdataverse[sdvplot]"
+from IPython.display import Markdown, display
+
+try:
+    import matplotlib.pyplot as plt
+    import sdvplot
+except ImportError:
+    plt = None
+
+if plt is None:
+    display(Markdown('_Chart skipped: it needs `pip install --pre "sportsdataverse[sdvplot]"`._'))
+else:
+    last = pbp.filter(pl.col("week") == pbp["week"].max())
+    wp = last.filter(pl.col("game_id") == last["game_id"][0]).drop_nulls("home_wp")
+    home, away = wp["home_team"][0], wp["away_team"][0]
+    home_color, away_color = sdvplot.team_colors("nfl", [home, away])
+    x, y = range(wp.height), wp["home_wp"].to_numpy()
+
+    fig, ax = plt.subplots(figsize=(9, 4))
+    ax.fill_between(x, 0.5, y, where=y >= 0.5, interpolate=True, color=home_color, label=home)
+    ax.fill_between(x, 0.5, y, where=y < 0.5, interpolate=True, color=away_color, label=away)
+    ax.set_ylim(0, 1)
+    ax.set_xlabel("Play number")
+    ax.set_ylabel(f"{home} win probability")
+    ax.set_title(f"{away} at {home}, {wp['game_id'][0]}")
+    ax.legend(loc="upper left")
+    plt.show()
+```
+
+
+
+![png](03_nfl_intro_files/03_nfl_intro_24_0.png)
 
 
 
@@ -910,16 +953,16 @@ epa_off
     │ ---     ┆ ---          ┆ ---   │
     │ str     ┆ f64          ┆ u32   │
     ╞═════════╪══════════════╪═══════╡
-    │ BAL     ┆ 0.219        ┆ 1167  │
-    │ BUF     ┆ 0.19         ┆ 1202  │
-    │ DET     ┆ 0.165        ┆ 1164  │
-    │ WAS     ┆ 0.132        ┆ 1308  │
-    │ TB      ┆ 0.129        ┆ 1128  │
-    │ PHI     ┆ 0.119        ┆ 1341  │
-    │ CIN     ┆ 0.09         ┆ 1069  │
-    │ GB      ┆ 0.071        ┆ 1081  │
-    │ SF      ┆ 0.069        ┆ 1014  │
-    │ ARI     ┆ 0.067        ┆ 1031  │
+    │ BAL     ┆ 0.192        ┆ 1167  │
+    │ BUF     ┆ 0.165        ┆ 1202  │
+    │ DET     ┆ 0.144        ┆ 1164  │
+    │ WAS     ┆ 0.117        ┆ 1308  │
+    │ TB      ┆ 0.115        ┆ 1128  │
+    │ PHI     ┆ 0.104        ┆ 1341  │
+    │ CIN     ┆ 0.084        ┆ 1069  │
+    │ SF      ┆ 0.065        ┆ 1014  │
+    │ GB      ┆ 0.063        ┆ 1081  │
+    │ ARI     ┆ 0.062        ┆ 1031  │
     └─────────┴──────────────┴───────┘
 
 
@@ -1223,7 +1266,7 @@ calendar; `most_recent_nfl_season()` gives the latest season with data.
 
 
 
-    {'current_season': 2026, 'current_week': 7, 'most_recent_season': 2026}
+    {'current_season': 2026, 'current_week': 11, 'most_recent_season': 2026}
 
 
 
@@ -1297,9 +1340,13 @@ import os
 
 from sportsdataverse.nfl.nflpro import nfl_pro_players_offense_passing_season
 
-ngs = safe("nfl_pro passing (season)", lambda: nfl_pro_players_offense_passing_season(season=2024))
-if ngs is not None:
-    print(ngs.columns[:8])
+# NFL Pro needs an account; like PFF below, the cell is a no-op without credentials.
+if os.environ.get("NFLPRO_TOKEN") or (os.environ.get("NFLPRO_EMAIL") and os.environ.get("NFLPRO_PW")):
+    ngs = safe("nfl_pro passing (season)", lambda: nfl_pro_players_offense_passing_season(season=2024))
+    if ngs is not None:
+        print(ngs.columns[:8])
+else:
+    print("no NFL Pro credentials set - skipping nfl_pro_* (set NFLPRO_TOKEN, or NFLPRO_EMAIL + NFLPRO_PW)")
 
 # PFF needs a key; the cell is a no-op without one rather than a traceback.
 if os.environ.get("SDV_PY_PFF_API_KEY") or os.environ.get("PFF_API_KEY"):
@@ -1316,6 +1363,6 @@ print("shield_pbp:", [n for n in dir(shield_pbp) if not n.startswith("_")][:6])
 
 ```
 
-    ⏭️  nfl_pro passing (season): NFLProAuthError: No NFL Pro credentials: pass email=/password=REDACTED, or set NFLPRO_EMAIL and NFLPRO_PW, or set NFLPRO_TOKE…
+    no NFL Pro credentials set - skipping nfl_pro_* (set NFLPRO_TOKEN, or NFLPRO_EMAIL + NFLPRO_PW)
     no PFF key set - skipping pff_api_* (set SDV_PY_PFF_API_KEY)
     shield_pbp: ['annotations', 'build', 'build_pbp', 'build_pbp_from_file', 'build_playstats_frame', 'build_playstats_season']

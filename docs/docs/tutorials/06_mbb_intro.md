@@ -64,7 +64,7 @@ no live API). Click any name for the full reference.
 ## 🔌 Setup
 
 ```sh
-pip install sportsdataverse
+pip install --pre sportsdataverse
 ```
 
 No API key needed — ESPN, Fox and the parquet loaders are all open. 😊
@@ -116,7 +116,7 @@ print("teams:", teams.shape)
 teams.select(["team_id", "team_location", "team_name", "team_abbreviation", "team_is_active"]).head()
 ```
 
-    teams: (362, 14)
+    teams: (365, 14)
 
 
 
@@ -297,16 +297,16 @@ out
     │ ---     ┆ --- ┆ ---  ┆ ---  ┆ ---  │
     │ str     ┆ str ┆ str  ┆ str  ┆ str  │
     ╞═════════╪═════╪══════╪══════╪══════╡
-    │ 1       ┆ 37  ┆ null ┆ null ┆ null │
-    │ 2       ┆ 37  ┆ null ┆ null ┆ null │
-    │ 3       ┆ 37  ┆ null ┆ null ┆ null │
-    │ 4       ┆ 36  ┆ null ┆ null ┆ null │
-    │ 5       ┆ 36  ┆ null ┆ null ┆ null │
-    │ 6       ┆ 35  ┆ null ┆ null ┆ null │
-    │ 7       ┆ 35  ┆ null ┆ null ┆ null │
-    │ 8       ┆ 35  ┆ null ┆ null ┆ null │
-    │ 9       ┆ 35  ┆ null ┆ null ┆ null │
-    │ 10      ┆ 35  ┆ null ┆ null ┆ null │
+    │ 1       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 2       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 3       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 4       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 5       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 6       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 7       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 8       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 9       ┆ 8   ┆ null ┆ null ┆ null │
+    │ 10      ┆ 8   ┆ null ┆ null ┆ null │
     └─────────┴─────┴──────┴──────┴──────┘
 
 
@@ -404,8 +404,8 @@ print("player box rows:", pbox.shape)
     │ David Jones          ┆ Memphis                 ┆ 32  ┆ 21.8 │
     │ Tyson Acuff          ┆ E Michigan              ┆ 27  ┆ 21.7 │
     │ Dalton Knecht        ┆ Tennessee               ┆ 36  ┆ 21.7 │
-    │ Tucker DeVries       ┆ Drake                   ┆ 34  ┆ 21.6 │
     │ Jordan Sears         ┆ UT Martin               ┆ 32  ┆ 21.6 │
+    │ Tucker DeVries       ┆ Drake                   ┆ 34  ┆ 21.6 │
     └──────────────────────┴─────────────────────────┴─────┴──────┘
 
 
@@ -600,8 +600,8 @@ pbox = sdv.mbb.load_mbb_player_boxscore(seasons=[2024])
     │ Ryan Kalkbrenner     ┆ CREI              ┆ 35  ┆ 604.0 ┆ 68.9   │
     │ Cedric Coward        ┆ EWU               ┆ 32  ┆ 494.0 ┆ 68.3   │
     │ Jaylin Williams      ┆ AUB               ┆ 34  ┆ 422.0 ┆ 68.2   │
-    │ Chaz Lanier          ┆ UNF               ┆ 32  ┆ 629.0 ┆ 67.3   │
     │ Zach Edey            ┆ PUR               ┆ 39  ┆ 983.0 ┆ 67.3   │
+    │ Chaz Lanier          ┆ UNF               ┆ 32  ┆ 629.0 ┆ 67.3   │
     └──────────────────────┴───────────────────┴─────┴───────┴────────┘
 
 
@@ -633,8 +633,6 @@ out
 
     ✅ conferences
     some conferences: ['NCAA Division I', 'Non-NCAA Division I']
-
-
     ✅ standings 2024
 
 
@@ -738,16 +736,16 @@ out
     │ ---   ┆ --- ┆ --- ┆ --- ┆ ---  ┆ ---      │
     │ str   ┆ str ┆ str ┆ str ┆ str  ┆ str      │
     ╞═══════╪═════╪═════╪═════╪══════╪══════════╡
-    │ 1     ┆ 37  ┆ 21  ┆ 16  ┆ null ┆ null     │
-    │ 2     ┆ 35  ┆ 21  ┆ 15  ┆ null ┆ null     │
-    │ 3     ┆ 35  ┆ 18  ┆ 17  ┆ null ┆ null     │
-    │ 4     ┆ 35  ┆ 23  ┆ 13  ┆ null ┆ null     │
-    │ 5     ┆ 35  ┆ 15  ┆ 20  ┆ null ┆ null     │
-    │ 6     ┆ 35  ┆ 19  ┆ 18  ┆ null ┆ null     │
-    │ 7     ┆ 35  ┆ 30  ┆ 9   ┆ null ┆ null     │
-    │ 8     ┆ 35  ┆ 19  ┆ 16  ┆ null ┆ null     │
-    │ 9     ┆ 34  ┆ 29  ┆ 6   ┆ null ┆ null     │
-    │ 10    ┆ 34  ┆ 36  ┆ 3   ┆ null ┆ null     │
+    │ 1     ┆ 8   ┆ 4   ┆ 4   ┆ null ┆ null     │
+    │ 2     ┆ 8   ┆ 2   ┆ 6   ┆ null ┆ null     │
+    │ 3     ┆ 8   ┆ 1   ┆ 7   ┆ null ┆ null     │
+    │ 4     ┆ 8   ┆ 4   ┆ 4   ┆ null ┆ null     │
+    │ 5     ┆ 8   ┆ 2   ┆ 6   ┆ null ┆ null     │
+    │ 6     ┆ 8   ┆ 2   ┆ 6   ┆ null ┆ null     │
+    │ 7     ┆ 8   ┆ 3   ┆ 5   ┆ null ┆ null     │
+    │ 8     ┆ 8   ┆ 1   ┆ 7   ┆ null ┆ null     │
+    │ 9     ┆ 8   ┆ 1   ┆ 7   ┆ null ┆ null     │
+    │ 10    ┆ 8   ┆ 4   ┆ 4   ┆ null ┆ null     │
     └───────┴─────┴─────┴─────┴──────┴──────────┘
 
 
@@ -1073,7 +1071,13 @@ import os
 
 from sportsdataverse.mbb import torvik_ratings
 
-safe("torvik ratings", lambda: torvik_ratings(year=2025))
+# barttorvik.com answers HTTP 403 to cloud and CI machines, which is where the docs page is rendered.
+try:
+    torvik = torvik_ratings(year=2025)
+    print(f"✅ torvik ratings: {torvik.height} teams")
+except AssetFetchError as e:
+    torvik = None
+    print("Torvik blocks automated requests; run this locally" if "HTTP 403" in str(e) else f"⏭️  torvik ratings: {e}")
 
 if os.environ.get("KENPOM_EMAIL") and os.environ.get("KENPOM_PASSWORD"):
     from sportsdataverse.mbb import kenpom_ratings
@@ -1084,5 +1088,5 @@ else:
 
 ```
 
-    ⏭️  torvik ratings: AssetFetchError: barttorvik.com/2025_team_results.csv answered HTTP 403
+    Torvik blocks automated requests; run this locally
     no KenPom credentials - skipping kenpom_* (set KENPOM_EMAIL / KENPOM_PASSWORD)
